@@ -3,7 +3,9 @@ import './App.css';
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css'
-import { Button,Modal,Form,FormControl,FormGroup,Col,ControlLabel } from 'react-bootstrap';
+import 'react-datepicker/dist/react-datepicker-cssmodules.css'
+import { Button,Modal,Form,FormControl,FormGroup,Col,ControlLabel,DropdownButton,MenuItem } from 'react-bootstrap';
+import DatePicker from 'react-datepicker';
 import myEventsList from './myEventsList'
 BigCalendar.momentLocalizer(moment)
 
@@ -48,7 +50,7 @@ class MyCalendar extends React.Component{
     return(
       <BigCalendar
       events={myEventsList}
-      defaultDate={new Date(2015, 3, 1)}
+      defaultDate={new Date()}
       defaultView="agenda"
       // dayPropGetter={this.customDayPropGetter}
       // slotPropGetter={this.customSlotPropGetter}
@@ -63,20 +65,37 @@ class MyCalendar extends React.Component{
     )
   }
 
-}
-class AddEvent extends React.Component{constructor(props, context) {
-  super(props, context);
 
+}
+class AddEvent extends React.Component{
+  constructor(props, context) {
+    super(props, context);
     this.handleShow = this.handleShow.bind(this);
     this.handleClose = this.handleClose.bind(this);
-
     this.state = {
         show: false,
         id : myEventsList[myEventsList.length-1],
         eventContent:undefined,
-        start: undefined,
-        end: undefined
+        startDate: moment(),
+        endDate:moment(),
+        title:'OOAD',
+        desc:undefined
       };
+      this.startDateChange = this.startDateChange.bind(this)
+      this.endDateChange = this.endDateChange.bind(this)
+      this.submitEvent = this.submitEvent.bind(this)
+      this.selectedType = this.selectedType.bind(this)
+      this.handleChange = this.handleChange.bind(this)
+    }
+    startDateChange(date) {
+      this.setState({
+        startDate: date
+      });
+    }
+    endDateChange(date){
+      this.setState({
+        endDate:date
+      })
     }
 
     handleClose() {
@@ -87,12 +106,27 @@ class AddEvent extends React.Component{constructor(props, context) {
       this.setState({ show: true });
     }
     submitEvent(){
+      this.handleClose() 
       myEventsList.push({
         id: myEventsList[myEventsList.length-1],
-        title: 'Today',
-        start: new Date(new Date().setHours(new Date().getHours() - 3)),
-        end: new Date(new Date().setHours(new Date().getHours() + 3)),
+        title: this.state.title,
+        start: this.state.startDate.toDate(),
+        end:this.state.endDate.toDate(),
+        desc: this.state.desc,
       })
+      console.log(myEventsList)
+      
+  }
+  selectedType(selected){
+    this.setState({title:selected})
+    return selected
+  }
+
+  handleChange(text){
+    console.log(text)
+    this.setState({
+      desc:text.target.value
+    })
   }
 
   render() {
@@ -107,29 +141,36 @@ class AddEvent extends React.Component{constructor(props, context) {
           </Modal.Header>
           <Modal.Body>
           <Form horizontal>
-            <FormGroup controlId="formControlsSelect">
-            <Col componentClass={ControlLabel} sm={2}>
-                事件類別
-            </Col>
-            <Col sm={10}> 
-              <FormControl componentClass="select"  placeholder="select">
-                  <option value="select">POSD</option>
-                  <option value="other">SA</option>
-                  <option value="other">STV</option>
-              </FormControl>
-            </Col>
-            </FormGroup>
+              <FormGroup controlId="formControlsSelect">
+                <Col componentClass={ControlLabel} sm={2}>
+                    事件類別
+                </Col>
+                <Col sm={10}> 
+                    <DropdownButton title={this.state.title} onSelect={this.selectedType} id="selectType">
+                      <MenuItem eventKey='OOAD'>OOAD</MenuItem>
+                      <MenuItem eventKey='STV'>STV</MenuItem>
+                      <MenuItem eventKey='SA'>SA</MenuItem>              
+                  </DropdownButton>
+                </Col>
+              </FormGroup>
             <FormGroup controlId="formHorizontalEmail">
             <Col componentClass={ControlLabel} sm={2}>
-                時間
+                起始時間
             </Col>
-            <Col sm={10}>
-                <div class='input-group date' id='datetimepicker6'>
-                    <input type='text' class="form-control" />
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                </div>
+            <Col sm={4}>
+              <DatePicker
+                  selected={this.state.startDate}
+                  onChange={this.startDateChange}
+              />
+            </Col>
+            <Col componentClass={ControlLabel} sm={2}>
+                結束時間
+            </Col>
+            <Col sm={4}>
+              <DatePicker
+                  selected={this.state.endDate}
+                  onChange={this.endDateChange}
+              />
             </Col>
             </FormGroup>
             <FormGroup controlId="formControlsTextarea">
@@ -137,7 +178,7 @@ class AddEvent extends React.Component{constructor(props, context) {
                 事件內容
             </Col>
             <Col sm={10}>
-                <FormControl componentClass="textarea" placeholder="textarea" />
+                <FormControl  componentClass="textarea" placeholder="input things" onChange={this.handleChange}/>
             </Col>
             </FormGroup>
           </Form>
