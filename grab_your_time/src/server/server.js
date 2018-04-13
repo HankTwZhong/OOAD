@@ -8,7 +8,7 @@ var event = require('./Schemas/eventSchema');
 
 app.use(bodyParser.json())
 
-app.post('/', (req, res) => {
+app.post('/event', (req, res) => {
     console.log(req.body);
     let id = req.body.id;
     let title = req.body.allDay;
