@@ -8,7 +8,6 @@ var eventSchema = new Schema({
     },
     startTime: {
         type: Date
-        
     },
     endTime: {
         type: Date
