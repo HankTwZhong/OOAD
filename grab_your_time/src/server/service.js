@@ -9,11 +9,11 @@ class Service {
     recordEvent(event) {
         return new Promise((resolve, reject) => {
             db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-            console.log('title:'+event.title+'\n startTime:'+event.startTime+'\n endTime:'+event.endTime);
+            console.log('title:'+event.title+'\n startTime:'+event.start+'\n endTime:'+event.end);
             eventSchema.create({
                 title: event.title,
-                startTime:dateFormat(event.startTime, "yyyy/mm/dd HH:mm:ss"),
-                endTime:dateFormat(event.endTime, "yyyy/mm/dd HH:mm:ss")
+                start:dateFormat(event.start, "yyyy/mm/dd HH:mm:ss"),
+                end:dateFormat(event.end, "yyyy/mm/dd HH:mm:ss")
             })
             console.log('done');
         })

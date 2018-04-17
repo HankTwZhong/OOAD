@@ -64,20 +64,15 @@ export default class AddEvent extends React.Component{
       }
       submitEvent() {
         this.handleClose()
-        this.props.myEventsList.push({
+        let event = {
           id: this.props.myEventsList.length ,
           title: this.state.title,
           start: new Date(this.state.startDate.get('year'),this.state.startDate.get('month'), this.state.startDate.get('date'), this.state.startTime.get('hour'), this.state.startTime.get('minute'), 0),
           end: new Date(this.state.endDate.get('year'),this.state.endDate.get('month'), this.state.endDate.get('date'), this.state.endTime.get('hour'), this.state.endTime.get('minute'), 0),
-          desc: this.state.desc,
-        })
-        axios.post('localhost:1321/event',{
-            // id: this.props.myEventsList.length ,
-            type: this.state.title,
-            startDate: new Date(this.state.startDate.get('year'),this.state.startDate.get('month'), this.state.startDate.get('date'), this.state.startTime.get('hour'), this.state.startTime.get('minute'), 0),
-            endDate: new Date(this.state.endDate.get('year'),this.state.endDate.get('month'), this.state.endDate.get('date'), this.state.endTime.get('hour'), this.state.endTime.get('minute'), 0),
-            description: this.state.desc,
-        })
+          desc: this.state.desc
+        }
+        this.props.myEventsList.push(event)
+        axios.post('http://localhost:1321/event', event)
         console.log(this.props.myEventsList)
     
       }

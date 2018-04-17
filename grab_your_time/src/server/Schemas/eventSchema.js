@@ -6,11 +6,16 @@ var eventSchema = new Schema({
         type: String,
         require:true
     },
-    startTime: {
-        type: Date
+    start: {
+        type: Date,
+        require:true
     },
-    endTime: {
-        type: Date
+    end: {
+        type: Date,
+        require:true
+    },
+    desc: {
+        type: String
     }
 });
 
