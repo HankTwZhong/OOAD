@@ -1,9 +1,12 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-var Service = require('./service')
+var service = require('./service');
+var cors =  require('cors');
 
-app.use(bodyParser.json())
+app.use(cors());
+app.options('*', cors());
+app.use(bodyParser.json());
 
 app.post('/', (req, res) => {
     console.log('here');
@@ -11,14 +14,16 @@ app.post('/', (req, res) => {
 })
 
 app.post('/event', (req, res) => {
+    console.log('here');
+    console.log(req);
     let event = req.body;
-    Service.recordEvent(event);
+    service.recordEvent(event);
     res.send('so far so good');
 })
 
 app.post('/findevent', (req, res) => {
     let event = req.body;
-    Service.findEvent(event);
+    service.findEvent(event);
     res.send('so far so good');
 })
 
