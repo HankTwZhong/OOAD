@@ -7,14 +7,14 @@ import TimePicker from 'rc-time-picker';
 import moment from 'moment';
 import axios from 'axios'
 
-const now = moment();
+const now = moment()
 const format = 'HH:mm';
 
 export default class AddEvent extends React.Component{
     constructor(props, context) {
         super(props, context);
-        this.handleShow = this.handleShow.bind(this);
-        this.handleClose = this.handleClose.bind(this);
+        this.handleShow = this.handleShow.bind(this)
+        this.handleClose = this.handleClose.bind(this)
         this.state = {
           show: false,
           id: props.myEventsList.length,
@@ -25,7 +25,7 @@ export default class AddEvent extends React.Component{
           endTime:moment(),
           title: 'OOAD',
           desc: undefined
-        };
+        }
         this.startDateChange = this.startDateChange.bind(this)
         this.endDateChange = this.endDateChange.bind(this)
         this.submitEvent = this.submitEvent.bind(this)
@@ -72,7 +72,6 @@ export default class AddEvent extends React.Component{
           desc: this.state.desc,
         })
         axios.post('localhost:1321/event',{
-            // id: this.props.myEventsList.length ,
             type: this.state.title,
             startDate: new Date(this.state.startDate.get('year'),this.state.startDate.get('month'), this.state.startDate.get('date'), this.state.startTime.get('hour'), this.state.startTime.get('minute'), 0),
             endDate: new Date(this.state.endDate.get('year'),this.state.endDate.get('month'), this.state.endDate.get('date'), this.state.endTime.get('hour'), this.state.endTime.get('minute'), 0),
@@ -96,9 +95,6 @@ export default class AddEvent extends React.Component{
       render() {
         return (
           <div>
-            <Button className="pull-right" bsStyle="primary" bsSize="xsmall" onClick={this.handleShow}>
-              Add Event
-            </Button>
             <Modal show={this.state.show} onHide={this.handleClose}>
               <Modal.Header closeButton>
                 <Modal.Title>Add Event</Modal.Title>
