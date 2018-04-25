@@ -27,6 +27,17 @@ app.post('/findevent', (req, res) => {
     res.send('so far so good');
 })
 
+app.get('/getevent', (req, res) =>{
+    let event = req.params;
+    let promise = service.getEvent()
+    promise.then((result) => {
+        res.send(result);
+    })
+})
+app.post('/deleteevent', (req, res) =>{
+    let event = req.bod
+})
+
 app.listen(1321, function () {
     console.log('listening on port 1321!');
 })

@@ -27,6 +27,15 @@ class Service {
         })
 
     }
+    getEvent(){
+        return new Promise((resolve, reject) => {
+            eventSchema.find({}).then((result) => {
+                resolve(result)
+            }, (err) => {
+                reject(err)
+            })
+        })
+    }
 }
 
 module.exports = new Service();
