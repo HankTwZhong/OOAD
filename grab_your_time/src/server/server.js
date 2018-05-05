@@ -21,22 +21,48 @@ app.post('/event', (req, res) => {
     res.send('so far so good');
 })
 
-app.post('/findevent', (req, res) => {
+app.post('/findEvent', (req, res) => {
     let event = req.body;
     service.findEvent(event);
     res.send('so far so good');
 })
 
-app.get('/getevent', (req, res) =>{
-    let event = req.params;
-    let promise = service.getEvent()
-    promise.then((result) => {
+app.get('/getEvent', (req, res) =>{
+    let getEvent = service.getEvent()
+    getEvent.then((result) => {
+        res.send(result);
+    })
+    .catch((err) => {
+        console.log(err)
+        res.send(err);
+    })
+})
+
+app.delete('/deleteEvent', (req, res) =>{
+    let event = req.body;
+    let deleteEvent = service.deleteEvent(event);
+    deleteEvent.then((result) => {
+        res.send(result);
+    }).catch((err) =>{
+        res.send(err);
+    })
+})
+app.post('/bookStore', (req, res) => {
+    let bookstore = req.body;
+    service.addBookStore(bookstore)
+    .then((result) => {
         res.send(result);
     })
 })
-app.post('/deleteevent', (req, res) =>{
-    let event = req.bod
+
+app.post('/findBookStore',(req, res) =>{
+    let bookStore = req.body;
+    service.findBookStore(bookStore)
+    .then((result) =>{
+        res.send(result);
+    })
 })
+
 
 app.listen(1321, function () {
     console.log('listening on port 1321!');
