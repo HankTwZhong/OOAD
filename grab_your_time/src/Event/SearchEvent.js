@@ -43,9 +43,8 @@ const requestData = (pageSize, page, sorted, filtered) => {
       rows: sortedData.slice(pageSize * page, pageSize * page + pageSize),
       pages: Math.ceil(filteredData.length / pageSize)
     };
-
+    resolve(res)
     // Here we'll simulate a server response with 500ms of delay.
-    setTimeout(() => resolve(res), 500);
   });
 };
 
@@ -62,7 +61,6 @@ export default class SearchEvent extends React.Component {
   fetchData(state, instance) {
     // Whenever the table model changes, or the user sorts or changes pages, this method gets called and passed the current table model.
     // You can set the `loading` prop of the table to true to use the built-in one or show you're own loading bar if you want.
-    this.setState({ loading: true });
     // Request the data however you want.  Here, we'll use our mocked service we created earlier
     requestData(
       state.pageSize,
@@ -74,12 +72,11 @@ export default class SearchEvent extends React.Component {
       this.setState({
         data: res.rows,
         pages: res.pages,
-        loading: false
       });
     });
   }
   render() {
-    const { data, pages, loading } = this.state;
+    const { data, pages } = this.state;
     return (
       <div>
         <ReactTable
@@ -89,24 +86,27 @@ export default class SearchEvent extends React.Component {
               accessor: "title"
             },
             {
+              Header: "內容",
+              accessor: "desc"
+            },
+            {
               Header: "StartTime",
-              id: "lastName",
-              accessor: data => moment(data.start).format('YYYY-MM-DD HH:mm') 
+              id: "startTime",
+              accessor: data => moment(data.startstart).format('YYYY/MM/DD HH:mm')
+              ,
+              filterable: false
             },
             {
               Header: "EndTime",
-              id: "lastName",
-              accessor: data => moment(data.end).format('YYYY-MM-DD HH:mm') 
-            },
-            {
-              Header: "內容",
-              accessor: "desc"
+              id: "endTime",
+              accessor: data => moment(data.end).format('YYYY/MM/DD HH:mm')
+              ,
+              filterable: false
             }
           ]}
           manual // Forces table not to paginate or sort automatically, so we can handle it server-side
           data={data}
           pages={pages} // Display the total number of pages
-          loading={loading} // Display the loading overlay when we need it
           onFetchData={this.fetchData} // Request new data when things change
           filterable
           defaultPageSize={10}
