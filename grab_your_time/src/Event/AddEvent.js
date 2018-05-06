@@ -84,6 +84,7 @@ export default class AddEvent extends React.Component{
             startDate: new Date(this.state.startDate.get('year'),this.state.startDate.get('month'), this.state.startDate.get('date'), this.state.startTime.get('hour'), this.state.startTime.get('minute'), 0),
             endDate: new Date(this.state.endDate.get('year'),this.state.endDate.get('month'), this.state.endDate.get('date'), this.state.endTime.get('hour'), this.state.endTime.get('minute'), 0),
             description: this.state.desc,
+            selectedTime: this.state.selectedTime
         })
     
       }
@@ -91,7 +92,6 @@ export default class AddEvent extends React.Component{
         this.setState({ title: selected })
       }
       selectedTime(selected){
-        console.log(selected)
         this.setState({
           time:selected
         })
@@ -105,6 +105,11 @@ export default class AddEvent extends React.Component{
         return <button>qwe</button>
       }
       checkBox(checked){
+        if(checked === false){
+          this.setState({
+            selectedTime:undefined
+          })
+        }
         this.setState({
           checked:checked
         })

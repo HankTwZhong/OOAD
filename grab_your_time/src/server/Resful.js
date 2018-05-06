@@ -3,6 +3,8 @@ var app = express();
 var bodyParser = require('body-parser');
 // var service = require('./service');
 var Account = require('./Account');
+var Calendar  = require('./Calendar');
+var Type = require('./Type');
 var cors =  require('cors');
 
 app.use(cors());
@@ -17,11 +19,6 @@ app.post('/', (req, res) => {
 })
 
 app.post('/event', (req, res) => {
-    // console.log('here');
-    // console.log(req);
-    // let event = req.body;
-    // service.recordEvent(event);
-    // res.send('so far so good');
     let event = req.body;
     let account = new Account('aco','paw');
     let result = account.createAccountAndCalendar();
@@ -46,15 +43,17 @@ app.post('/event', (req, res) => {
 //     })
 // })
 
-// app.delete('/deleteEvent', (req, res) =>{
-//     let event = req.body;
-//     let deleteEvent = service.deleteEvent(event);
-//     deleteEvent.then((result) => {
-//         res.send(result);
-//     }).catch((err) =>{
-//         res.send(err);
-//     })
-// })
+app.delete('/deleteEvent', (req, res) =>{
+    let event = req.body;
+    let type = new Type();
+    let deleteEvent = type.deleteEvent(event._id);
+    deleteEvent.then((result) => {
+        res.send(result);
+    }).catch((err) =>{
+        res.send(err);
+    })
+})
+
 // app.post('/bookStore', (req, res) => {
 //     let bookstore = req.body;
 //     service.addBookStore(bookstore)
