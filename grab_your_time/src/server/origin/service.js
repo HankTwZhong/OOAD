@@ -66,14 +66,15 @@ class Service {
             // bookStoreSchema.find({name: book.name})
             // .then((bookStoreName)=>{
             //     console.log(bookStoreName);
-                // bookStoreSchema.find({name: bookStoreName.name})
-                // .then((result) => {
-                //     console.log(result);
-                //     resolve(result)
-                // })
+            //     bookStoreSchema.find({name: bookStoreName.name})
+            //     .then((result) => {
+            //         console.log(result);
+            //         resolve(result)
+            //     })
             // })
             // let bookLocation;
-            console.log(book.classify[0].name);
+            // console.log(book.classify[0].name);
+            // console.log(book)
             // bookStoreSchema.find({
             //     'classify':{
             //         $elemMatch:{name: book.classify[0].name}
@@ -82,23 +83,39 @@ class Service {
             // .then((bookStoreName)=>{
             //     console.log(bookStoreName);
             //     resolve(bookStoreName)
-                // resolve('so far so good');
+            //     resolve('so far so good');
             // })
-            bookStoreSchema.find({
-                    classify: [{
-                        name:'landscape'},
-                        {name:'architecture'}
-                    ]
-            })
+            // bookStoreSchema.find({
+            //         classify: [{
+            //             name:'landscape'}
+            //         ]
+            // })
             // .populate('classify')
-            .exec(function(err, result){
-                console.log(result);
-                resolve(result)
-            })
-            // .then((result) => {
+            // .exec(function(err, result){
             //     console.log(result);
             //     resolve(result)
             // })
+            // .then((result) => {
+            //     return bookStoreSchema.find({
+            //         classify: [{
+            //             name:'landscape'}
+            //         ]
+            // })
+            //     console.log(result);
+            //     resolve(result)
+            // })
+            // bookStoreSchema.findOne({'classify.name':'architecture'})
+            // .then((result)=> {
+            //     console.log(result);
+            //     resolve(result)
+            // })
+
+            bookStoreSchema.find({name:'eslite'}, {classify:{$elemMatch:{name:'architecture'}}})
+            .then((result)=>{
+                console.log(result);
+                result.name = book.name;
+                resolve(result);
+            })
         })
     }
 }

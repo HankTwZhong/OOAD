@@ -2,21 +2,33 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var eventSchema = new Schema({
-    title: {
+    account: {
+        type: String,
+        require : true
+    },
+    type: {
         type: String,
         require:true
     },
-    start: {
-        type: Date,
-        require:true
-    },
-    end: {
-        type: Date,
-        require:true
-    },
-    desc: {
-        type: String
-    }
+    events:[{
+        eventName:{
+            type: String
+        },
+        Type:{
+            type: String
+        },
+        startTime: {
+            type: Date,
+            require:true
+        },
+        endTime: {
+            type: Date,
+            require:true
+        },
+        desciption: {
+            type: String
+        }
+    }]
 });
 
 
