@@ -40,7 +40,7 @@ export default class TypeManage extends React.Component {
     return (
       <div>
         <Form inline>
-            <FormControl type="text" onChange={this.inputTypeChange} placeholder="輸入類別" />
+            <FormControl type="text" onChange={this.inputTypeChange} placeholder="類別名稱" />
           <Button bsStyle="success" onClick={()=>this.addType()} type="submit">新增類別</Button>
         </Form>
         <ReactTable

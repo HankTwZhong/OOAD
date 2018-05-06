@@ -16,16 +16,16 @@ export default class TopButtom extends React.Component{
         <div>
           <ButtonToolbar>
             <Button className="pull-right" bsStyle="primary" onClick={this.onClick}>
-              Add Event
+              增加事件
             </Button>
             <Button  className="pull-right" bsStyle="primary">
-              <Link to="/searchEvent" style={{ color: '#FFF' }}>SearchEvent</Link>
+              <Link to="/searchEvent" style={{ color: '#FFF' }}>查詢事件</Link>
             </Button>
             <Button  className="pull-right" bsStyle="primary">
-              <Link to="/manageType" style={{ color: '#FFF' }}>ManageType</Link>
+              <Link to="/manageType" style={{ color: '#FFF' }}>管理類別</Link>
             </Button>
             <Button  className="pull-left" bsStyle="primary">
-              <Link to="/" style={{ color: '#FFF' }}>Calendar</Link>
+              <Link to="/" style={{ color: '#FFF' }}>返回月曆</Link>
             </Button>
           </ButtonToolbar>
           <AddEvent ref = {this.child} 

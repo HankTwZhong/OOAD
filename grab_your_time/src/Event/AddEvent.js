@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Modal,Form,FormControl,FormGroup,Col,ControlLabel, DropdownButton, MenuItem} from 'react-bootstrap'
+import { Checkbox,Button, Modal,Form,FormControl,FormGroup,Col,ControlLabel, DropdownButton, MenuItem} from 'react-bootstrap'
 import 'react-datepicker/dist/react-datepicker-cssmodules.css'
 import DatePicker from 'react-datepicker';
 import 'rc-time-picker/assets/index.css';
@@ -25,8 +25,10 @@ export default class AddEvent extends React.Component{
           endDate: moment(),
           startTime:moment(),
           endTime:moment(),
-          title: 'OOAD',
-          desc: undefined
+          title: '選擇類別',
+          desc: undefined,
+          checked:false,
+          time:undefined
         }
         this.startDateChange = this.startDateChange.bind(this)
         this.endDateChange = this.endDateChange.bind(this)
@@ -36,6 +38,8 @@ export default class AddEvent extends React.Component{
         this.startTimeOnChange = this.startTimeOnChange.bind(this)
         this.endTimeOnChange = this.endTimeOnChange.bind(this)
         this.dropDownMenu = this.dropDownMenu.bind(this)
+        this.checkBox = this.checkBox.bind(this)
+        this.selectedTime = this.selectedTime.bind(this)
       }
       startDateChange(date) {
         this.setState({
@@ -85,9 +89,13 @@ export default class AddEvent extends React.Component{
       }
       selectedType(selected) {
         this.setState({ title: selected })
-        return selected
       }
-    
+      selectedTime(selected){
+        console.log(selected)
+        this.setState({
+          time:selected
+        })
+      }
       handleChange(text) {
         this.setState({
           desc: text.target.value
@@ -95,6 +103,11 @@ export default class AddEvent extends React.Component{
       }
       dropDownMenu(){
         return <button>qwe</button>
+      }
+      checkBox(checked){
+        this.setState({
+          checked:checked
+        })
       }
       render() {
         let optionItems = this.props.typeList.map((type,i) =>
@@ -112,9 +125,20 @@ export default class AddEvent extends React.Component{
                     <Col componentClass={ControlLabel} sm={2}>
                       事件類別
                     </Col>
-                    <Col sm={10}>
+                    <Col sm={3}>
                       <DropdownButton title={this.state.title} onSelect={this.selectedType} id="selectType">
                          {optionItems}
+                      </DropdownButton>
+                    </Col>
+                    <Col sm={3}>
+                    <Checkbox inline checked={this.state.checked} onClick={e => this.checkBox(e.target.checked)}>
+                    循環事件  
+                    </Checkbox>
+                    </Col>
+                    <Col sm={2}>                    
+                      <DropdownButton title='循環事件' onSelect={this.selectedTime} id="selectedTime">
+                          <MenuItem disabled={!this.state.checked} eventKey='day'>每天</MenuItem>
+                          <MenuItem disabled={!this.state.checked} eventKey='week'>一週</MenuItem>                          
                       </DropdownButton>
                     </Col>
                   </FormGroup>
@@ -133,6 +157,7 @@ export default class AddEvent extends React.Component{
                 </Col>
                     <Col sm={4}>
                       <DatePicker
+                        disabled={!this.state.checked}
                         selected={this.state.endDate}
                         onChange={this.endDateChange}
                       />
