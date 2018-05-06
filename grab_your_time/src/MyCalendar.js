@@ -1,6 +1,7 @@
 import React from 'react';
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
+import axios from 'axios';
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 
 BigCalendar.momentLocalizer(moment)
@@ -10,7 +11,19 @@ class MyCalendar extends React.Component {
         this.state= {
             myEventsList :props.myEventsList
         }
+        this.deleteEvent = this.deleteEvent.bind(this);
     }
+    deleteEvent(event){
+      axios.delete('http://localhost:1321/event',{data:{title:event.title, _id:event._id}}).then((result)=>{
+      console.log(result);
+      axios.get('http://localhost:1321/event').then((result)=>{
+        console.log(result.data)
+        this.props.setEventList(result.data)
+      })
+     
+      })
+    }
+
     Event({ event }) {
       return (
         <span>
@@ -34,7 +47,7 @@ class MyCalendar extends React.Component {
           defaultDate={new Date()}
           defaultView="month"
           views={['month', 'agenda']}
-          onSelectEvent={event => alert(event.title)}
+          onSelectEvent={event => this.deleteEvent(event)}
           components={{
             event: this.Event,
             agenda: {

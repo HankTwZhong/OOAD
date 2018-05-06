@@ -2,24 +2,32 @@ import React, { Component } from 'react';
 import './App.css';
 import {Route, Switch,Redirect} from 'react-router-dom'
 import MyCalendar from './MyCalendar'
-import myEventsList from './Event/myEventsList'
 import SearchEvent from './Event/SearchEvent'
 import TypeManage from './Type/TypeManage'
 import TopButtom from './TopButton'
-
+import axios from 'axios'
 
 class App extends Component {
   constructor(){
     super()
     this.state={
-      eventList:myEventsList,
+      eventList:[],
       typeList:[{
-        typeName:'POSD'
-      },
-      {
-        typeName:'SE'
+        typeName:'here'
       }]
     }
+    axios.get('http://localhost:1321/type').then((result)=>{
+      console.log(result.data)
+      this.setState({
+        typeList:result.data
+      })
+    })
+    axios.get('http://localhost:1321/event').then((result)=>{
+      console.log(result.data)
+      this.setState({
+        eventList:result.data
+      })
+    })
     this.setTypeList=this.setTypeList.bind(this)
     this.setEventList = this.setEventList.bind(this)
   }
@@ -41,12 +49,13 @@ class App extends Component {
     return (
       <MyCalendar 
       myEventsList={this.state.eventList} 
+      setEventList={this.setEventList}
       />
     );
     }
     const searchEvent = (props) =>{
     return (
-      <SearchEvent myEventsList={this.eventList}/>
+      <SearchEvent myEventsList={this.state.eventList}/>
     )
     }
     return (

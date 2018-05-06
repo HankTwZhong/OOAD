@@ -1,6 +1,7 @@
 import React from "react";
 import { Button,FormControl,Form} from 'react-bootstrap'
 // Import React Table
+import axios from 'axios';
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 
@@ -22,6 +23,14 @@ export default class TypeManage extends React.Component {
     let newArray = this.state.data
     newArray.push({typeName:this.state.inputText})
     this.props.setTypeList(newArray)
+    axios.post('http://localhost:1321/type',{
+      typeName:this.state.inputText
+    }).then((result)=>{
+      console.log(result);
+      axios.get('http://localhost:1321/type').then((result)=>{
+        this.props.setTypeList(result.data)
+      })
+    });
   }
   inputTypeChange(inputText){
     this.setState({
@@ -33,6 +42,9 @@ export default class TypeManage extends React.Component {
     newArray = newArray.filter((type)=>{
       return type.typeName !== typeName
     })
+    axios.delete('http://localhost:1321/type',{data:{typeName:typeName}}).then((result)=>{
+      console.log(result);
+    })
     this.props.setTypeList(newArray)
   }
   render() {
@@ -41,7 +53,7 @@ export default class TypeManage extends React.Component {
       <div>
         <Form inline>
             <FormControl type="text" onChange={this.inputTypeChange} placeholder="類別名稱" />
-          <Button bsStyle="success" onClick={()=>this.addType()} type="submit">新增類別</Button>
+          <Button bsStyle="success" onClick={()=>this.addType()} >新增類別</Button>
         </Form>
         <ReactTable
           data={data}

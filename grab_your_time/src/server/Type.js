@@ -1,18 +1,34 @@
 var mongoose = require('mongoose');
 var connection = mongoose.connect('mongodb://localhost/timelog');
-var eventSchema = require('./Schemas/eventSchema');
+var calendarSchema = require('./Schemas/calendarSchema');
+var Event = require('./Event');
 
 class Type{
-    deleteEvent(eventID){
-        return new Promise((resolve, reject) => {
-            eventSchema.remove({_id:eventID})
-            .then((result) => {
-                resolve(result);
-            })
-            .catch((err) => {
-                reject(err);
-            })
+    constructor(typeName,eventList){
+        this.typeName = typeName;
+        this.eventList = eventList;
+    }
+    addEvent(eventData){
+        this.eventList.push(new Event(eventData.title, eventData.start,eventData.end,eventData.desc)) //builder
+        calendarSchema.update({account:'admin', 'typeList.typeName':this.typeName},{$set: {'typeList.$.eventList':this.eventList}})
+        .then((result)=>{
+            console.log(result);
         })
+    }
+    deleteEvent(eventID){
+        this.eventList = this.eventList.filter((event)=>{
+            var id = mongoose.Types.ObjectId(eventID);
+            return  event._id.toString() !== eventID;
+        })
+        console.log(this.eventList)
+        calendarSchema.update({account:'admin', 'typeList.typeName':this.typeName},{$set: {'typeList.$.eventList':this.eventList}})
+        .then((result)=>{
+            console.log(result);
+        })
+        // calendarSchema.remove({'typeList.eventList._id':Id}).then((result)=>{
+        //     console.log(result);
+        // });
+
     }
 }
 

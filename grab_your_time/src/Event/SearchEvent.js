@@ -4,15 +4,12 @@ import _ from "lodash";
 // Import React Table
 import ReactTable from "react-table";
 import "react-table/react-table.css";
-import myEventList from "./myEventsList"
 import moment from 'moment'
 
-const rawData = myEventList
-
-const requestData = (pageSize, page, sorted, filtered) => {
+const requestData = (myEventsList,pageSize, page, sorted, filtered) => {
   return new Promise((resolve, reject) => {
     // You can retrieve your data however you want, in this case, we will just use some local data.
-    let filteredData = rawData;
+    let filteredData = myEventsList;
 
     // You can use the filters in your request, but you are responsible for applying them.
     if (filtered.length) {
@@ -49,8 +46,8 @@ const requestData = (pageSize, page, sorted, filtered) => {
 };
 
 export default class SearchEvent extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       data: [],
       pages: null,
@@ -63,6 +60,7 @@ export default class SearchEvent extends React.Component {
     // You can set the `loading` prop of the table to true to use the built-in one or show you're own loading bar if you want.
     // Request the data however you want.  Here, we'll use our mocked service we created earlier
     requestData(
+      this.props.myEventsList,
       state.pageSize,
       state.page,
       state.sorted,

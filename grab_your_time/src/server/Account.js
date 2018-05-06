@@ -1,35 +1,37 @@
-var mongoose = require('mongoose');
-var connection = mongoose.connect('mongodb://localhost/timelog');
-var db = mongoose.connection;
-var eventSchema = require('./Schemas/eventSchema');
+let mongoose = require('mongoose');
+let connection = mongoose.connect('mongodb://localhost/timelog');
+let db = mongoose.connection;
+let calendarSchema = require('./Schemas/calendarSchema');
 
-var Calendar = require('./Calendar');
+let Calendar = require('./Calendar');
+let Type = require('./Type');
 class Account {
     constructor(account, password){
-        this.account = 'so far';
-        this.password = 'so good';
-        this.Calendar = mongoose.find({
-            account: 'admin'
+        this.account = 'admin';
+        this.password = '1234';
+        this.createCaldendar().then((result)=>{
+            this.calendar = result
         })
     }
-    createAccountAndCalendar(eventSchemaData){
-        let str = new Date(); let end = new Date();
-        eventSchema.create({
-            account:'admin' ,
-            type:'ooad' ,
-            events:[{
-                eventName: 'coding',
-                Type:'',
-                startTime: str,
-                endTime: end,
-                desciption: 'hello'
-            }]
-        })
-        .then()
-        return eventSchemaData
-    }
+
+
+    // events:[{
+    //     eventName: 'coding',
+    //     Type:'',
+    //     startTime: str,
+    //     endTime: end,
+    //     desciption: 'hello'
+    // }]
     createCaldendar(){
-        // return this.Calendar;
+        return new Promise((resolve, reject) =>{
+            calendarSchema.find({account:'admin'}).then((result)=>{
+                let typeList = []
+                result[0].typeList.forEach((type)=>{
+                    typeList.push(new Type( type.typeName, type.eventList));
+                });
+                resolve( new Calendar(typeList));
+            })
+        })
     }
 }
 

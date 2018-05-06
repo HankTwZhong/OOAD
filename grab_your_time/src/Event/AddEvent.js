@@ -19,7 +19,6 @@ export default class AddEvent extends React.Component{
         this.handleClose = this.handleClose.bind(this)
         this.state = {
           show: false,
-          id: this.eventList.length,
           eventContent: undefined,
           startDate: moment(),
           endDate: moment(),
@@ -72,21 +71,38 @@ export default class AddEvent extends React.Component{
       submitEvent() {
         this.handleClose()
         this.eventList.push({
-          id: this.eventList.length+1,
           title: this.state.title,
           start: new Date(this.state.startDate.get('year'),this.state.startDate.get('month'), this.state.startDate.get('date'), this.state.startTime.get('hour'), this.state.startTime.get('minute'), 0),
           end: new Date(this.state.endDate.get('year'),this.state.endDate.get('month'), this.state.endDate.get('date'), this.state.endTime.get('hour'), this.state.endTime.get('minute'), 0),
           desc: this.state.desc,
         })
-        this.props.setEventList(this.eventList)
-        axios.post('localhost:1321/event',{
-            type: this.state.title,
-            startDate: new Date(this.state.startDate.get('year'),this.state.startDate.get('month'), this.state.startDate.get('date'), this.state.startTime.get('hour'), this.state.startTime.get('minute'), 0),
-            endDate: new Date(this.state.endDate.get('year'),this.state.endDate.get('month'), this.state.endDate.get('date'), this.state.endTime.get('hour'), this.state.endTime.get('minute'), 0),
-            description: this.state.desc,
-            selectedTime: this.state.selectedTime
+
+        if(this.state.time===undefined){
+            axios.post('http://localhost:1321/event',{
+              title: this.state.title,
+              start: new Date(this.state.startDate.get('year'),this.state.startDate.get('month'), this.state.startDate.get('date'), this.state.startTime.get('hour'), this.state.startTime.get('minute'), 0),
+              end: new Date(this.state.startDate.get('year'),this.state.startDate.get('month'), this.state.startDate.get('date'), this.state.endTime.get('hour'), this.state.endTime.get('minute'), 0),
+              desc: this.state.desc,
+              selectedTime: this.state.selectedTime
+          }).then((result)=>{
+              axios.get('http://localhost:1321/event').then((result)=>{
+                this.props.setEventList(result.data)
+              })
+          })
+        }
+        else{
+          axios.post('http://localhost:1321/event',{
+              title: this.state.title,
+              start: new Date(this.state.startDate.get('year'),this.state.startDate.get('month'), this.state.startDate.get('date'), this.state.startTime.get('hour'), this.state.startTime.get('minute'), 0),
+              end: new Date(this.state.endDate.get('year'),this.state.endDate.get('month'), this.state.endDate.get('date'), this.state.endTime.get('hour'), this.state.endTime.get('minute'), 0),
+              desc: this.state.desc,
+              selectedTime: this.state.selectedTime
+          }).then((result)=>{
+            axios.get('http://localhost:1321/event').then((result)=>{
+              this.props.setEventList(result.data)
+            })
         })
-    
+        }
       }
       selectedType(selected) {
         this.setState({ title: selected })
@@ -107,7 +123,7 @@ export default class AddEvent extends React.Component{
       checkBox(checked){
         if(checked === false){
           this.setState({
-            selectedTime:undefined
+            time:undefined
           })
         }
         this.setState({

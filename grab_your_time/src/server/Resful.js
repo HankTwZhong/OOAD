@@ -10,7 +10,7 @@ var cors =  require('cors');
 app.use(cors());
 app.options('*', cors());
 app.use(bodyParser.json());
-
+let account ;
 
 
 app.post('/', (req, res) => {
@@ -20,10 +20,9 @@ app.post('/', (req, res) => {
 
 app.post('/event', (req, res) => {
     let event = req.body;
-    let account = new Account('aco','paw');
-    let result = account.createAccountAndCalendar();
-
-    res.send(result);
+    console.log(event);
+    account.calendar.addEvent(event);
+    res.send('Add Event Success');
 })
 
 // app.post('/findEvent', (req, res) => {
@@ -43,34 +42,62 @@ app.post('/event', (req, res) => {
 //     })
 // })
 
-app.delete('/deleteEvent', (req, res) =>{
-    let event = req.body;
-    let type = new Type();
-    let deleteEvent = type.deleteEvent(event._id);
-    deleteEvent.then((result) => {
-        res.send(result);
-    }).catch((err) =>{
-        res.send(err);
-    })
+// app.delete('/deleteEvent', (req, res) =>{
+//     let event = req.body;
+//     let type = new Type();
+//     let deleteEvent = type.deleteEvent(event._id);
+//     deleteEvent.then((result) => {
+//         res.send(result);
+//     }).catch((err) =>{
+//         res.send(err);
+//     })
+// })
+
+app.delete('/event', (req, res) =>{
+        let event = req.body;
+        console.log(event)
+        account.calendar.deleteEvent(event);
+        res.send('delete Success');
+        // deleteEvent.then((result) => {
+        //     res.send(result);
+        // }).catch((err) =>{
+        //     res.send(err);
+        // })
 })
 
-// app.post('/bookStore', (req, res) => {
-//     let bookstore = req.body;
-//     service.addBookStore(bookstore)
-//     .then((result) => {
-//         res.send(result);
-//     })
-// })
+app.get('/event', (req, res) =>{
+    let calendar = account.calendar.getTypeList();
+    let eventList = [];
+    calendar.forEach((type)=>{
+        type.eventList.forEach((event)=>{
+            eventList.push(event);
+        })
+    })
+    console.log(eventList);
+    res.send(eventList);
+})
 
-// app.post('/findBookStore',(req, res) =>{
-//     let bookStore = req.body;
-//     service.findBookStore(bookStore)
-//     .then((result) =>{
-//         res.send(result);
-//     })
-// })
 
+app.post('/type', (req, res) => {
+    let type = req.body;
+    console.log(account);
+    account.calendar.addType(new Type(type.typeName,[]))
+    res.send('Add Type Success');
+})
+
+app.get('/type', (req, res) =>{
+    let calendar = account.calendar.getTypeList();
+    res.send(calendar);
+})
+
+app.delete('/type', (req, res) =>{
+    let typeName = req.body.typeName;
+    account.calendar.deleteType(typeName);
+    res.send('Delete Type Success');
+})
 
 app.listen(1321, function () {
+    account = new Account();
+    console.log(account)
     console.log('listening on port 1321!');
 })
