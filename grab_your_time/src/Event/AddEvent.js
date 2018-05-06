@@ -12,12 +12,14 @@ const format = 'HH:mm';
 
 export default class AddEvent extends React.Component{
     constructor(props, context) {
-        super(props, context);
+      super(props, context);
+        // this.typeList = props.typeList
+        this.eventList = props.myEventsList
         this.handleShow = this.handleShow.bind(this)
         this.handleClose = this.handleClose.bind(this)
         this.state = {
           show: false,
-          id: props.myEventsList.length,
+          id: this.eventList.length,
           eventContent: undefined,
           startDate: moment(),
           endDate: moment(),
@@ -33,6 +35,7 @@ export default class AddEvent extends React.Component{
         this.handleChange = this.handleChange.bind(this)
         this.startTimeOnChange = this.startTimeOnChange.bind(this)
         this.endTimeOnChange = this.endTimeOnChange.bind(this)
+        this.dropDownMenu = this.dropDownMenu.bind(this)
       }
       startDateChange(date) {
         this.setState({
@@ -64,20 +67,20 @@ export default class AddEvent extends React.Component{
       }
       submitEvent() {
         this.handleClose()
-        this.props.myEventsList.push({
-          id: this.props.myEventsList.length ,
+        this.eventList.push({
+          id: this.eventList.length+1,
           title: this.state.title,
           start: new Date(this.state.startDate.get('year'),this.state.startDate.get('month'), this.state.startDate.get('date'), this.state.startTime.get('hour'), this.state.startTime.get('minute'), 0),
           end: new Date(this.state.endDate.get('year'),this.state.endDate.get('month'), this.state.endDate.get('date'), this.state.endTime.get('hour'), this.state.endTime.get('minute'), 0),
           desc: this.state.desc,
         })
+        this.props.setEventList(this.eventList)
         axios.post('localhost:1321/event',{
             type: this.state.title,
             startDate: new Date(this.state.startDate.get('year'),this.state.startDate.get('month'), this.state.startDate.get('date'), this.state.startTime.get('hour'), this.state.startTime.get('minute'), 0),
             endDate: new Date(this.state.endDate.get('year'),this.state.endDate.get('month'), this.state.endDate.get('date'), this.state.endTime.get('hour'), this.state.endTime.get('minute'), 0),
             description: this.state.desc,
         })
-        console.log(this.props.myEventsList)
     
       }
       selectedType(selected) {
@@ -86,13 +89,17 @@ export default class AddEvent extends React.Component{
       }
     
       handleChange(text) {
-        console.log(text)
         this.setState({
           desc: text.target.value
         })
       }
-    
+      dropDownMenu(){
+        return <button>qwe</button>
+      }
       render() {
+        let optionItems = this.props.typeList.map((type,i) =>
+          <MenuItem key={type.typeName} eventKey={type.typeName}>{type.typeName}</MenuItem>
+      );
         return (
           <div>
             <Modal show={this.state.show} onHide={this.handleClose}>
@@ -107,9 +114,7 @@ export default class AddEvent extends React.Component{
                     </Col>
                     <Col sm={10}>
                       <DropdownButton title={this.state.title} onSelect={this.selectedType} id="selectType">
-                        <MenuItem eventKey='OOAD'>OOAD</MenuItem>
-                        <MenuItem eventKey='STV'>STV</MenuItem>
-                        <MenuItem eventKey='SA'>SA</MenuItem>
+                         {optionItems}
                       </DropdownButton>
                     </Col>
                   </FormGroup>

@@ -1,68 +1,70 @@
 import React, { Component } from 'react';
 import './App.css';
-import {Link,Route, Switch,Redirect} from 'react-router-dom'
-import {Button,ButtonToolbar} from 'react-bootstrap';
-import AddEvent from './Event/AddEvent'
+import {Route, Switch,Redirect} from 'react-router-dom'
 import MyCalendar from './MyCalendar'
 import myEventsList from './Event/myEventsList'
 import SearchEvent from './Event/SearchEvent'
+import TypeManage from './Type/TypeManage'
+import TopButtom from './TopButton'
 
-const MyCalendarWithProps = (props) => {
-  return (
-    <MyCalendar 
-    myEventsList={myEventsList} 
-    />
-  );
-}
-const searchEvent = (props) =>{
-  return (
-    <SearchEvent myEventsList={myEventsList}/>
-  )
-}
+
 class App extends Component {
+  constructor(){
+    super()
+    this.state={
+      eventList:myEventsList,
+      typeList:[{
+        typeName:'POSD'
+      },
+      {
+        typeName:'SE'
+      }]
+    }
+    this.setTypeList=this.setTypeList.bind(this)
+    this.setEventList = this.setEventList.bind(this)
+  }
+  setEventList(eventList){
+    this.setState({eventList:eventList})
+  }
+  setTypeList(typeList){
+    this.setState({
+      typeList: typeList
+    })
+  }
   render() {
+    const MyTypeList = ()=>{
+      return (
+        <TypeManage setTypeList={this.setTypeList} typeList={this.state.typeList}/>
+      )
+    }
+    const MyCalendarWithProps = (props) => {
+    return (
+      <MyCalendar 
+      myEventsList={this.state.eventList} 
+      />
+    );
+    }
+    const searchEvent = (props) =>{
+    return (
+      <SearchEvent myEventsList={this.eventList}/>
+    )
+    }
     return (
       <div className="App">
         <header className="App-header">
           <h1 className="App-title">Grab Your Time
-          <TopButtom />
+          <TopButtom  setEventList={this.setEventList} typeList={this.state.typeList} myEventsList={this.state.eventList}/>
           </h1>
         </header>
             <Switch>
               <Route exact path="/" component={MyCalendarWithProps} />
               <Route exact path="/searchEvent" component={searchEvent}/>
+              <Route exact path="/manageType" component={MyTypeList}/>              
               <Redirect to='/' />
             </Switch>
       </div>
     );
   }
 }
-class TopButtom extends React.Component{
-  constructor(props){
-    super(props);
-    this.child = React.createRef()
-  }
-  onClick = () => {
-    this.child.current.handleShow()
-  }
-  render(){
-    return(
-      <div>
-        <ButtonToolbar>
-          <Button className="pull-right" bsStyle="primary" onClick={this.onClick}>
-            Add Event
-          </Button>
-          <Button  className="pull-right" bsStyle="primary">
-            <Link to="/searchEvent" style={{ color: '#FFF' }}>SearchEvent</Link>
-          </Button>
-          <Button  className="pull-left" bsStyle="primary">
-            <Link to="/" style={{ color: '#FFF' }}>Calendar</Link>
-          </Button>
-        </ButtonToolbar>
-        <AddEvent ref = {this.child} 
-          myEventsList={myEventsList}/>
-      </div>
-    )
-  }
-}
+
 export default App;
