@@ -13,7 +13,6 @@ class App extends Component {
     this.state={
       eventList:[],
       typeList:[{
-        typeName:'here'
       }]
     }
     axios.get('http://localhost:1321/type').then((result)=>{

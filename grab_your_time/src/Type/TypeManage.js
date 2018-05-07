@@ -16,9 +16,6 @@ export default class TypeManage extends React.Component {
     this.inputTypeChange = this.inputTypeChange.bind(this)
     this.deleteType = this.deleteType.bind(this)
   }
-  editRow(value){
-    console.log(value)
-  }
   addType(){
     let newArray = this.state.data
     newArray.push({typeName:this.state.inputText})
@@ -57,6 +54,7 @@ export default class TypeManage extends React.Component {
         </Form>
         <ReactTable
           data={data}
+          noDataText="新增一個類別"
           columns={[
             {
               id:'typeName',
@@ -68,7 +66,6 @@ export default class TypeManage extends React.Component {
               accessor: 'typeName',
               Cell: ({value}) => (
               <div>
-                <Button bsStyle="info" onClick={()=>this.editRow(value)}>編輯類別</Button>
                 <Button bsStyle="danger" onClick={()=>this.deleteType(value)}>刪除類別</Button>
               </div>
             )
