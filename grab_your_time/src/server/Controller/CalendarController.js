@@ -14,7 +14,7 @@ class CalendarController {
     
     getEventList(req, res) {
         let eventList = this.account.calendar.getEventList();
-        console.log(eventList);
+        // console.log(eventList);
         res.send(eventList);
     }
 }

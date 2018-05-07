@@ -62,7 +62,7 @@ class Calendar {
 
     getEventList(){
         let eventList = [];
-        console.log('here:\t'+this.typeList)
+        // console.log('here:'+JSON.stringify(this.typeList))
         this.typeList.forEach((type)=>{
             type.eventList.forEach((event)=>{
                 eventList.push(event);
