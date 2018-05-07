@@ -1,25 +1,26 @@
-let express = require('express');
-let app = express();
 let bodyParser = require('body-parser');
-
-let cors =  require('cors');
-app.use(cors());
-app.options('*', cors());
-app.use(bodyParser.json());
-
 
 class EventController {
     constructor(account){
-        this.account = account
-    }
-    addEvent(){
-        app.post('/event', (req, res) => {
-            let event = req.body;
-        
-            res.send(result);
-        })
+        this.account = account;
     }
 
+    addEvent(req, res){
+        let event = req.body;
+        console.log('addEventtitle:'+ event.title+'\naddEventDesc'+event.desc);
+        this.account.calendar.addEvent(event)
+        .then((result)=>{
+            console.log('done');
+            res.send('Add Event Success');
+        });
+    }
+
+    deleteEvent(req, res){
+        let event = req.body;
+        console.log(event)
+        this.account.calendar.deleteEvent(event);
+        res.send('delete Success');
+    }
 }
 
 module.exports = EventController;

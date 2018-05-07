@@ -9,11 +9,14 @@ class Type{
         this.eventList = eventList;
     }
     addEvent(eventData){
-        this.eventList.push(new Event(eventData.title, eventData.start,eventData.end,eventData.desc)) //builder
-        calendarSchema.update({account:'admin', 'typeList.typeName':this.typeName},{$set: {'typeList.$.eventList':this.eventList}})
-        .then((result)=>{
-            console.log(result);
+        return new Promise((resolve, reject)=>{
+            this.eventList.push(new Event(eventData.title, eventData.start,eventData.end,eventData.desc)) //builder
+            calendarSchema.update({account:'admin', 'typeList.typeName':this.typeName},{$set: {'typeList.$.eventList':this.eventList}})
+            .then((result)=>{
+                resolve(result);
+            })
         })
+
     }
     deleteEvent(eventID){
         this.eventList = this.eventList.filter((event)=>{

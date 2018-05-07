@@ -39,11 +39,17 @@ class Calendar {
     }
 
     addEvent(eventData){
-        let findType = this.typeList.filter((type)=>{
-            return type.typeName === eventData.title;
+        return new Promise((resolve, reject)=>{
+            let findType = this.typeList.filter((type)=>{
+                return type.typeName === eventData.title;
+            })
+    
+            findType[0].addEvent(eventData)
+            .then((result)=>{
+                resolve(findType);
+            });
         })
 
-        findType[0].addEvent(eventData);
     }
 
     deleteEvent(eventData){
@@ -53,8 +59,16 @@ class Calendar {
 
         findType[0].deleteEvent(eventData._id);
     }
-    getEventList(){
 
+    getEventList(){
+        let eventList = [];
+        console.log('here:\t'+this.typeList)
+        this.typeList.forEach((type)=>{
+            type.eventList.forEach((event)=>{
+                eventList.push(event);
+            })
+        })
+        return eventList;
     }
 }
 

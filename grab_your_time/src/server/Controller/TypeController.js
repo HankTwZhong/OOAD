@@ -1,29 +1,20 @@
-let express = require('express');
-let app = express();
 let bodyParser = require('body-parser');
-
-let type = require('../Type')
-let cors =  require('cors');
-app.use(cors());
-app.options('*', cors());
-app.use(bodyParser.json());
+let Type = require('../Type');
 
 class TypeController {
     constructor(account){
-        this.account = account
+        this.account = account;
     }
-    addType(){
-        app.post('/type', (req, res) => {
-            console.log(req.body)
-            let type = req.body;
-            this.account.calendar.addType(new Type(type.typeName,[]))
-            let calendar = new calendar
-            let reulst = type.addType(type);
-            res.send(result);
-        })
+    addType (req, res){
+        let type = req.body;
+        console.log(this.account);
+        this.account.calendar.addType(new Type(type.typeName,[]))
+        res.send('Add Type Success');
     }
-    deleteType(){
-
+    deleteType (req, res){
+        let typeName = req.body.typeName;
+        this.account.calendar.deleteType(typeName);
+        res.send('Delete Type Success');
     }
 }
 

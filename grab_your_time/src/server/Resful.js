@@ -66,13 +66,15 @@ app.delete('/event', (req, res) =>{
 })
 
 app.get('/event', (req, res) =>{
-    let calendar = account.calendar.getTypeList();
+    // let calendar = account.calendar.getTypeList();
+    // let eventList = [];
+    // calendar.forEach((type)=>{
+    //     type.eventList.forEach((event)=>{
+    //         eventList.push(event);
+    //     })
+    // })
     let eventList = [];
-    calendar.forEach((type)=>{
-        type.eventList.forEach((event)=>{
-            eventList.push(event);
-        })
-    })
+    eventList =account.calendar.getEventList();
     console.log(eventList);
     res.send(eventList);
 })
