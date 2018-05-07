@@ -78,6 +78,7 @@ export default class SearchEvent extends React.Component {
     return (
       <div>
         <ReactTable
+          noDataText="新增一個事件"        
           columns={[
             {
               Header: "類別",

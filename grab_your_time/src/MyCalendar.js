@@ -23,7 +23,6 @@ class MyCalendar extends React.Component {
      
       })
     }
-
     Event({ event }) {
       return (
         <span>

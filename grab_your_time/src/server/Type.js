@@ -21,6 +21,7 @@ class Type{
     deleteEvent(eventID){
         this.eventList = this.eventList.filter((event)=>{
             var id = mongoose.Types.ObjectId(eventID);
+            console.log(event._id)
             return  event._id.toString() !== eventID;
         })
         console.log(this.eventList)
@@ -28,9 +29,7 @@ class Type{
         .then((result)=>{
             console.log(result);
         })
-        // calendarSchema.remove({'typeList.eventList._id':Id}).then((result)=>{
-        //     console.log(result);
-        // });
+
 
     }
 }

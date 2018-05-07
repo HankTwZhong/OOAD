@@ -5,9 +5,10 @@ import DatePicker from 'react-datepicker';
 import 'rc-time-picker/assets/index.css';
 import TimePicker from 'rc-time-picker';
 import moment from 'moment';
-import axios from 'axios'
+import axios from 'axios';
+import swal from 'sweetalert';
 
-const now = moment()
+const now = moment();
 const format = 'HH:mm';
 
 export default class AddEvent extends React.Component{
@@ -36,9 +37,9 @@ export default class AddEvent extends React.Component{
         this.handleChange = this.handleChange.bind(this)
         this.startTimeOnChange = this.startTimeOnChange.bind(this)
         this.endTimeOnChange = this.endTimeOnChange.bind(this)
-        this.dropDownMenu = this.dropDownMenu.bind(this)
         this.checkBox = this.checkBox.bind(this)
         this.selectedTime = this.selectedTime.bind(this)
+        this.checkFormData = this.checkFormData.bind(this)
       }
       startDateChange(date) {
         this.setState({
@@ -68,40 +69,55 @@ export default class AddEvent extends React.Component{
               endTime:value
           })
       }
+      checkFormData(){
+        let formConfirm = true
+        let startTime = moment(this.state.startTime).minute() +moment(this.state.startTime).hours() * 60
+        let endTime = moment(this.state.endTime).minute() +moment(this.state.endTime).hours() * 60
+        if(this.state.title === '選擇類別'){
+          swal('請選擇一個類別')
+          formConfirm = false
+        }
+        if(startTime >= endTime){
+          swal('起始時間必須小於結束時間')
+          formConfirm = false
+        }
+        return formConfirm
+      }
       submitEvent() {
-        this.handleClose()
-        this.eventList.push({
-          title: this.state.title,
-          start: new Date(this.state.startDate.get('year'),this.state.startDate.get('month'), this.state.startDate.get('date'), this.state.startTime.get('hour'), this.state.startTime.get('minute'), 0),
-          end: new Date(this.state.endDate.get('year'),this.state.endDate.get('month'), this.state.endDate.get('date'), this.state.endTime.get('hour'), this.state.endTime.get('minute'), 0),
-          desc: this.state.desc,
-        })
-
-        if(this.state.time===undefined){
+        if(this.checkFormData()){
+          this.handleClose()
+          this.eventList.push({
+            title: this.state.title,
+            start: new Date(this.state.startDate.get('year'),this.state.startDate.get('month'), this.state.startDate.get('date'), this.state.startTime.get('hour'), this.state.startTime.get('minute'), 0),
+            end: new Date(this.state.endDate.get('year'),this.state.endDate.get('month'), this.state.endDate.get('date'), this.state.endTime.get('hour'), this.state.endTime.get('minute'), 0),
+            desc: this.state.desc,
+          })
+          if(this.state.time===undefined){
+              axios.post('http://localhost:1321/event',{
+                title: this.state.title,
+                start: new Date(this.state.startDate.get('year'),this.state.startDate.get('month'), this.state.startDate.get('date'), this.state.startTime.get('hour'), this.state.startTime.get('minute'), 0),
+                end: new Date(this.state.startDate.get('year'),this.state.startDate.get('month'), this.state.startDate.get('date'), this.state.endTime.get('hour'), this.state.endTime.get('minute'), 0),
+                desc: this.state.desc,
+                selectedTime: this.state.selectedTime
+            }).then((result)=>{
+                axios.get('http://localhost:1321/event').then((result)=>{
+                  this.props.setEventList(result.data)
+                })
+            })
+          }
+          else{
             axios.post('http://localhost:1321/event',{
-              title: this.state.title,
-              start: new Date(this.state.startDate.get('year'),this.state.startDate.get('month'), this.state.startDate.get('date'), this.state.startTime.get('hour'), this.state.startTime.get('minute'), 0),
-              end: new Date(this.state.startDate.get('year'),this.state.startDate.get('month'), this.state.startDate.get('date'), this.state.endTime.get('hour'), this.state.endTime.get('minute'), 0),
-              desc: this.state.desc,
-              selectedTime: this.state.selectedTime
-          }).then((result)=>{
+                title: this.state.title,
+                start: new Date(this.state.startDate.get('year'),this.state.startDate.get('month'), this.state.startDate.get('date'), this.state.startTime.get('hour'), this.state.startTime.get('minute'), 0),
+                end: new Date(this.state.endDate.get('year'),this.state.endDate.get('month'), this.state.endDate.get('date'), this.state.endTime.get('hour'), this.state.endTime.get('minute'), 0),
+                desc: this.state.desc,
+                selectedTime: this.state.selectedTime
+            }).then((result)=>{
               axios.get('http://localhost:1321/event').then((result)=>{
                 this.props.setEventList(result.data)
               })
           })
-        }
-        else{
-          axios.post('http://localhost:1321/event',{
-              title: this.state.title,
-              start: new Date(this.state.startDate.get('year'),this.state.startDate.get('month'), this.state.startDate.get('date'), this.state.startTime.get('hour'), this.state.startTime.get('minute'), 0),
-              end: new Date(this.state.endDate.get('year'),this.state.endDate.get('month'), this.state.endDate.get('date'), this.state.endTime.get('hour'), this.state.endTime.get('minute'), 0),
-              desc: this.state.desc,
-              selectedTime: this.state.selectedTime
-          }).then((result)=>{
-            axios.get('http://localhost:1321/event').then((result)=>{
-              this.props.setEventList(result.data)
-            })
-        })
+          }
         }
       }
       selectedType(selected) {
@@ -117,9 +133,6 @@ export default class AddEvent extends React.Component{
           desc: text.target.value
         })
       }
-      dropDownMenu(){
-        return <button>qwe</button>
-      }
       checkBox(checked){
         if(checked === false){
           this.setState({
@@ -132,13 +145,13 @@ export default class AddEvent extends React.Component{
       }
       render() {
         let optionItems = this.props.typeList.map((type,i) =>
-          <MenuItem key={type.typeName} eventKey={type.typeName}>{type.typeName}</MenuItem>
+          <MenuItem key={i} eventKey={type.typeName}>{type.typeName}</MenuItem>
       );
         return (
           <div>
             <Modal show={this.state.show} onHide={this.handleClose}>
               <Modal.Header closeButton>
-                <Modal.Title>Add Event</Modal.Title>
+                <Modal.Title>增加事件</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <Form horizontal>
