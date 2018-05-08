@@ -14,15 +14,6 @@ class Account {
         })
     }
 
-
-    // events:[{
-    //     eventName: 'coding',
-    //     Type:'',
-    //     startTime: str,
-    //     endTime: end,
-    //     desciption: 'hello'
-    // }]
-    
     createCaldendar(){
         return new Promise((resolve, reject) =>{
             calendarSchema.find({account:'admin'}).then((result)=>{

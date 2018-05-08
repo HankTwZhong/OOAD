@@ -19,3 +19,14 @@
 // }
 
 // findOneAndUpadate();
+
+
+
+    // events:[{
+    //     eventName: 'coding',
+    //     Type:'',
+    //     startTime: str,
+    //     endTime: end,
+    //     desciption: 'hello'
+    // }]
+    

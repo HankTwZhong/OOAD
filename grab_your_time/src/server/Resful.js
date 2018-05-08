@@ -25,54 +25,14 @@ app.post('/event', (req, res) => {
     res.send('Add Event Success');
 })
 
-// app.post('/findEvent', (req, res) => {
-//     let event = req.body;
-//     service.findEvent(event);
-//     res.send('so far so good');
-// })
-
-// app.get('/getEvent', (req, res) =>{
-//     let getEvent = service.getEvent()
-//     getEvent.then((result) => {
-//         res.send(result);
-//     })
-//     .catch((err) => {
-//         console.log(err)
-//         res.send(err);
-//     })
-// })
-
-// app.delete('/deleteEvent', (req, res) =>{
-//     let event = req.body;
-//     let type = new Type();
-//     let deleteEvent = type.deleteEvent(event._id);
-//     deleteEvent.then((result) => {
-//         res.send(result);
-//     }).catch((err) =>{
-//         res.send(err);
-//     })
-// })
-
 app.delete('/event', (req, res) =>{
         let event = req.body;
         console.log(event)
         account.calendar.deleteEvent(event);
         res.send('delete Success');
-        // deleteEvent.then((result) => {
-        //     res.send(result);
-        // }).catch((err) =>{
-        //     res.send(err);
-        // })
 })
 
 app.get('/event', (req, res) =>{
-    // let calendar = account.calendar.getTypeList();
-    // let eventList = [];
-    // calendar.forEach((type)=>{
-    //     type.eventList.forEach((event)=>{
-    //         eventList.push(event);
-    //     })
-    // })
     let eventList = [];
     eventList =account.calendar.getEventList();
     console.log(eventList);

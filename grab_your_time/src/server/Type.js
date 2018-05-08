@@ -10,24 +10,19 @@ class Type{
     }
     addEvent(eventData){
         return new Promise((resolve, reject)=>{
-            // console.log(this.typeName);
-            // console.log('allEvent:\t'+JSON.stringify(this.eventList));
-            // console.log('eventData:\t'+JSON.stringify(eventData));
-            // this.eventList.push(new Event(eventData.title, eventData.start,eventData.end,eventData.desc)) //builder
-            // calendarSchema.update({account:'admin', 'typeList.typeName':this.typeName},{$set: {'typeList.$.eventList':this.eventList}})
-            // .then((result)=>{
-            //     resolve(result);
-            // })
-            this.eventList.push(new Event(eventData.title, eventData.start,eventData.end,eventData.desc)) //builder
-            calendarSchema.findOneAndUpdate({account:'admin', 'typeList.typeName':this.typeName},{$set: {'typeList.$.eventList':this.eventList}},{ new: true })
-            .then((result)=>{
-                let filteredType = result.typeList.filter((type)=>{
-                    if(type.typeName == this.typeName)
-                        return type;
+            if(eventData.start < eventData.end){
+                this.eventList.push(new Event(eventData.title, eventData.start,eventData.end,eventData.desc)); //builder
+                calendarSchema.findOneAndUpdate({account:'admin', 'typeList.typeName':this.typeName},{$set: {'typeList.$.eventList':this.eventList}},{ new: true })
+                .then((result)=>{
+                    let filteredType = result.typeList.filter((type)=>{
+                        if(type.typeName == this.typeName)
+                            return type;
+                    })
+                    this.eventList = filteredType[0].eventList;
+                    resolve(result);
                 })
-                this.eventList = filteredType[0].eventList;
-                resolve(result);
-            })
+            }
+ 
         })
     }
 
@@ -42,8 +37,6 @@ class Type{
         .then((result)=>{
             console.log(result);
         })
-
-
     }
 }
 

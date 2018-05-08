@@ -7,7 +7,6 @@ class TypeController {
     }
     addType (req, res){
         let type = req.body;
-        console.log(this.account);
         this.account.calendar.addType(new Type(type.typeName,[]))
         res.send('Add Type Success');
     }

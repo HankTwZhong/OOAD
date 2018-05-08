@@ -5,7 +5,6 @@ var db = mongoose.connection;
 var calendarSchema = require('./Schemas/calendarSchema');
 var Type = require('./Type');
 
-
 class Calendar {
     constructor(typeList){
         this.typeList = typeList;
@@ -14,6 +13,8 @@ class Calendar {
         if(this.typeList.map((type)=>{
             return type.typeName
         }).indexOf(typeObj.typeName)=== -1){
+            console.log('typelist'+this.typeList);
+            console.log('type'+typeObj);
             this.typeList.push(typeObj);
             calendarSchema.update({account:'admin'},{$set: {typeList:this.typeList}})
             .then((result) => {
@@ -27,11 +28,10 @@ class Calendar {
         this.typeList = this.typeList.filter((type)=>{
             return type.typeName !== typeName;
         })
-
         calendarSchema.update({account:'admin'},{$set: {typeList:this.typeList}})
-            .then((result) => {
-                console.log(result);
-            })
+        .then((result) => {
+            console.log(result);
+        })
     }
 
     getTypeList(){
@@ -43,7 +43,7 @@ class Calendar {
             let findType = this.typeList.filter((type)=>{
                 return type.typeName === eventData.title;
             })
-    
+            console.log('eventData:'+JSON.stringify(findType));
             findType[0].addEvent(eventData)
             .then((result)=>{
                 resolve(findType);

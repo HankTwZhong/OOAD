@@ -7,17 +7,15 @@ class EventController {
 
     addEvent(req, res){
         let event = req.body;
-        console.log('addEventtitle:'+ event.title+'\naddEventDesc'+event.desc);
+        console.log(event);
         this.account.calendar.addEvent(event)
         .then((result)=>{
-            console.log('done');
             res.send('Add Event Success');
         });
     }
 
     deleteEvent(req, res){
         let event = req.body;
-        console.log(event)
         this.account.calendar.deleteEvent(event);
         res.send('delete Success');
     }
