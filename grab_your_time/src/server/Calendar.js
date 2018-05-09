@@ -13,8 +13,6 @@ class Calendar {
         if(this.typeList.map((type)=>{
             return type.typeName
         }).indexOf(typeObj.typeName)=== -1){
-            console.log('typelist'+this.typeList);
-            console.log('type'+typeObj);
             this.typeList.push(typeObj);
             calendarSchema.update({account:'admin'},{$set: {typeList:this.typeList}})
             .then((result) => {
