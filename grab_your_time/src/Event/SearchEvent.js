@@ -112,8 +112,6 @@ export default class SearchEvent extends React.Component {
           className="-striped -highlight"
         />
         <br />
-        {/* <Tips />
-        <Logo /> */}
       </div>
     );
   }

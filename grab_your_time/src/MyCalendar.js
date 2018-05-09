@@ -15,9 +15,7 @@ class MyCalendar extends React.Component {
     }
     deleteEvent(event){
       axios.delete('http://localhost:1321/event',{data:{title:event.title, _id:event._id}}).then((result)=>{
-      console.log(result);
       axios.get('http://localhost:1321/event').then((result)=>{
-        console.log(result.data)
         this.props.setEventList(result.data)
       })
      
