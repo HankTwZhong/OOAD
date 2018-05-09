@@ -11,18 +11,17 @@ class App extends Component {
   constructor(){
     super()
     this.state={
-      eventList:[],
+      eventList:[
+      ],
       typeList:[{
       }]
     }
     axios.get('http://localhost:1321/type').then((result)=>{
-      console.log(result.data)
       this.setState({
         typeList:result.data
       })
     })
     axios.get('http://localhost:1321/event').then((result)=>{
-      console.log(result.data)
       this.setState({
         eventList:result.data
       })
