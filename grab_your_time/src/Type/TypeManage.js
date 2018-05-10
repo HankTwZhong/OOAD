@@ -40,6 +40,9 @@ export default class TypeManage extends React.Component {
       return type.typeName !== typeName
     })
     axios.delete('http://localhost:1321/type',{data:{typeName:typeName}}).then((result)=>{
+      axios.get('http://localhost:1321/event').then((result)=>{
+        this.props.setEventList(result.data)
+      })
       console.log(result);
     })
     this.props.setTypeList(newArray)

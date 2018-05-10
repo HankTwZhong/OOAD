@@ -101,6 +101,9 @@ export default class AddEvent extends React.Component{
                 desc: this.state.desc,
                 selectedTime: this.state.selectedTime
             }).then((result)=>{
+                this.setState({
+                  title:'選擇類別'
+                })
                 axios.get('http://localhost:1321/event').then((result)=>{
                   this.props.setEventList(result.data)
                 })
@@ -114,6 +117,9 @@ export default class AddEvent extends React.Component{
                 desc: this.state.desc,
                 selectedTime: this.state.selectedTime
             }).then((result)=>{
+              this.setState({
+                title:'選擇類別'
+              })
               axios.get('http://localhost:1321/event').then((result)=>{
                 this.props.setEventList(result.data)
               })

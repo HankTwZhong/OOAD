@@ -10,7 +10,7 @@ let TypeController = require('./Controller/TypeController');
 let EventController  = require('./Controller/EventController');
 let CalendarController = require('./Controller/CalendarController');
 let Account  =  require('./Account');
-let account = new Account();
+let account = new Account('admin', '1234');
 
 let  calendarController = new CalendarController(account);
 let  typeController  = new TypeController(account);

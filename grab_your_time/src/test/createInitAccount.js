@@ -8,7 +8,7 @@ function createInitAccount(){
 
     let str = new Date(); let end = new Date();
     calendarSchema.create({
-        account:'admin' ,
+        account:'Hank' ,
         typeList:[]
     })
     .then((result) =>{

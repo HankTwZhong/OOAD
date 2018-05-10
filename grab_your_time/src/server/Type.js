@@ -8,11 +8,11 @@ class Type{
         this.typeName = typeName;
         this.eventList = eventList;
     }
-    addEvent(eventData){
+    addEvent(_account, eventData){
         return new Promise((resolve, reject)=>{
             if(eventData.start < eventData.end){
                 this.eventList.push(new Event(eventData.title, eventData.start,eventData.end,eventData.desc)); //builder
-                calendarSchema.findOneAndUpdate({account:'admin', 'typeList.typeName':this.typeName},{$set: {'typeList.$.eventList':this.eventList}},{ new: true })
+                calendarSchema.findOneAndUpdate({account:_account, 'typeList.typeName':this.typeName},{$set: {'typeList.$.eventList':this.eventList}},{ new: true })
                 .then((result)=>{
                     let filteredType = result.typeList.filter((type)=>{
                         if(type.typeName == this.typeName)
@@ -26,14 +26,21 @@ class Type{
         })
     }
 
-    deleteEvent(eventID){
+    deleteEvent(_account, eventID){
+        console.log(eventID);
         this.eventList = this.eventList.filter((event)=>{
-            var id = mongoose.Types.ObjectId(eventID);
-            console.log(event._id)
-            return  event._id.toString() !== eventID;
+            // var id = mongoose.Types.ObjectId(eventID);
+            if(_account === "Hank"){
+                var id = mongoose.Types.ObjectId(eventID);
+                if(event._id !== id)
+                    return event;
+            }
+            else
+                if(event._id.toString() !== eventID)
+                    return  event;
+
         })
-        console.log(this.eventList)
-        calendarSchema.update({account:'admin', 'typeList.typeName':this.typeName},{$set: {'typeList.$.eventList':this.eventList}})
+        calendarSchema.update({account:_account, 'typeList.typeName':this.typeName},{$set: {'typeList.$.eventList':this.eventList}})
         .then((result)=>{
             console.log(result);
         })

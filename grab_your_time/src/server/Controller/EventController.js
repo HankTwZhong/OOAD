@@ -8,7 +8,7 @@ class EventController {
     addEvent(req, res){
         let event = req.body;
         console.log(event);
-        this.account.calendar.addEvent(event)
+        this.account.calendar.addEvent(this.account.account, event)
         .then((result)=>{
             res.send('Add Event Success');
         });
@@ -16,7 +16,7 @@ class EventController {
 
     deleteEvent(req, res){
         let event = req.body;
-        this.account.calendar.deleteEvent(event);
+        this.account.calendar.deleteEvent(this.account.account, event);
         res.send('delete Success');
     }
 }

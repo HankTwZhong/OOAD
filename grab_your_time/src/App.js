@@ -40,7 +40,7 @@ class App extends Component {
   render() {
     const MyTypeList = ()=>{
       return (
-        <TypeManage setTypeList={this.setTypeList} typeList={this.state.typeList}/>
+        <TypeManage setEventList={this.setEventList} setTypeList={this.setTypeList} typeList={this.state.typeList}/>
       )
     }
     const MyCalendarWithProps = (props) => {

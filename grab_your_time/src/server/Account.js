@@ -7,8 +7,8 @@ let Calendar = require('./Calendar');
 let Type = require('./Type');
 class Account {
     constructor(account, password){
-        this.account = 'admin';
-        this.password = '1234';
+        this.account = account;
+        this.password = password;
         this.createCaldendar().then((result)=>{
             this.calendar = result
         })
@@ -16,7 +16,7 @@ class Account {
 
     createCaldendar(){
         return new Promise((resolve, reject) =>{
-            calendarSchema.find({account:'admin'}).then((result)=>{
+            calendarSchema.find({account:this.account}).then((result)=>{
                 let typeList = []
                 result[0].typeList.forEach((type)=>{
                     typeList.push(new Type( type.typeName, type.eventList));

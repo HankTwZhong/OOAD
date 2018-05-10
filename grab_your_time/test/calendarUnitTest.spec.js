@@ -2,38 +2,41 @@ let assert = require('assert');
 let Account = require('../src/server/Account.js');
 let Calendar = require('../src/server/Calendar.js');
 let Type = require('../src/server/Type.js');
+let Event = require('../src/server/Event.js');
 
-describe('Calendar Operation', function() {
+describe.only('Calendar Operation', function() {
   let acc;
   let cal;
-  before(function(){
-    let initTypeList = [{"eventList": [],"typeName": "OOAD"}];
+  beforeEach(function(){
+    acc = new Account("Hank","1234")
+    let initTypeList = [];
     cal = new Calendar(initTypeList);
   });
 
-
   describe('#getTypeList()', function() {
     it('it should same with assignt element', function() {
-      let expectTypeList  = [{"eventList": [],"typeName": "OOAD"}];
+      let expectTypeList  = [];
       assert.deepEqual(expectTypeList, cal.getTypeList());
     });
   });
 
   describe('#addType', function(){
     it('it should show add Type in typelist of calendar', function(){
+      let expectTypeList = [{"eventList": [],"typeName": "STV"}]
       let type = new Type('STV',[]);
-      let expectTypeList = [{"eventList": [],"typeName": "OOAD"},{"eventList": [],"typeName": "STV"}]
-      cal.addType(type);
+      cal.addType(acc.account, type);
       assert.deepEqual(expectTypeList, cal.getTypeList());
-      // cal.deleteType(type.typeName);
+      cal.deleteType(acc.account, type.typeName);
     })
   })
 
   describe('#deleteType', function(){
     it('it should show add Type in typelist of calendar', function(){
-      let typeName = 'OOAD';
-      cal.deleteType(typeName);
-      // assert.deepEqual([], cal.getTypeList());
+      let expectTypeList = [{"eventList": [],"typeName": "STV"}]
+      let type = new Type('STV',[]);
+      cal.addType(acc.account, type);
+      cal.deleteType(acc.account, type.typeName);
+      assert.deepEqual([], cal.getTypeList());
     })
   })
 });
