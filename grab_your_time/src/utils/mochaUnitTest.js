@@ -1,13 +1,4 @@
-// let Account = require('../server/Account')
-// describe('firstTest',function(){
-//     let account;
-//     before(function(){
-//         account = new Account();
-//     })
-//     it('should have data', function(){
-//         console.log('mocha');
-//     });
-// })
+
 
 var assert = require('assert');
 describe('Array', function() {

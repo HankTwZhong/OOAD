@@ -22,7 +22,10 @@ app.post('/event', eventController.addEvent.bind(eventController));
 app.delete('/event', eventController.deleteEvent.bind(eventController));
 app.post('/type', typeController.addType.bind(typeController));
 app.delete('/type', typeController.deleteType.bind(typeController));
-
+app.post('/login',function(req, res){
+    account = new Account (req.account,req.password)
+    
+})
 app.listen(1321, function () {
     console.log('listening on port 1321!');
 })
