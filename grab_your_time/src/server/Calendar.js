@@ -42,7 +42,7 @@ class Calendar {
                 if(type.typeName === eventData.title)
                     return  type
             })
-            findType[0].addEvent(_account, eventData)
+            findType[0].addEvent(_account, eventData, calendarSchema)
             .then((result)=>{
                 resolve(result);
             })
@@ -59,7 +59,7 @@ class Calendar {
             if(type.typeName === eventData.title)
                 return type;
         })
-        findType[0].deleteEvent(_account, eventData._id);
+        findType[0].deleteEvent(_account, eventData._id,calendarSchema);
     }
 
     getEventList(){

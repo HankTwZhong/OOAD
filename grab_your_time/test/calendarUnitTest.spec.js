@@ -13,7 +13,6 @@ describe('Calendar Operation', function() {
     cal = new Calendar(initTypeList);
   });
 
-  
   describe('#addType', function(){
     it('it should show add Type in typelist of calendar', function(){
       let expectTypeList = [{"eventList": [],"typeName": "STV"}]
@@ -23,13 +22,14 @@ describe('Calendar Operation', function() {
       cal.deleteType(acc.account, type.typeName);
     })
   })
-  
+
   describe('#getTypeList()', function() {
     it('it should same with assignt element', function() {
       let expectTypeList  = [];
       assert.deepEqual(expectTypeList, cal.getTypeList());
     });
   });
+
   describe('#deleteType', function(){
     it('it should show add Type in typelist of calendar', function(){
       let expectTypeList = [{"eventList": [],"typeName": "STV"}]

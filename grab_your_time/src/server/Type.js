@@ -1,6 +1,3 @@
-var mongoose = require('mongoose');
-var connection = mongoose.connect('mongodb://localhost/timelog');
-var calendarSchema = require('./Schemas/calendarSchema');
 var Event = require('./Event');
 
 class Type{
@@ -8,7 +5,7 @@ class Type{
         this.typeName = typeName;
         this.eventList = eventList;
     }
-    addEvent(_account, eventData){
+    addEvent(_account, eventData,calendarSchema){
         return new Promise((resolve, reject)=>{
             if(eventData.start < eventData.end){
                 this.eventList.push(new Event(eventData.title, eventData.start,eventData.end,eventData.desc));
@@ -21,7 +18,7 @@ class Type{
                         })
                         this.eventList = filteredType[0].eventList;
 
-                    resolve(result);
+                    resolve(this.eventList);
                 })
                 .catch((err)=>{
                     reject(err);
@@ -30,7 +27,7 @@ class Type{
         })
     }
 
-    deleteEvent(_account, eventID){
+    deleteEvent(_account, eventID,calendarSchema){
         this.eventList = this.eventList.filter((event)=>{
             if(_account === "Hank"){
                 var id = mongoose.Types.ObjectId(eventID);
