@@ -48,6 +48,7 @@ class App extends Component {
       <MyCalendar 
       myEventsList={this.state.eventList} 
       setEventList={this.setEventList}
+      typeList = {this.state.typeList}
       />
     );
     }
@@ -60,7 +61,9 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <h1 className="App-title">Grab Your Time
-          <TopButtom  setEventList={this.setEventList} typeList={this.state.typeList} myEventsList={this.state.eventList}/>
+          <TopButtom  setEventList={this.setEventList} typeList={this.state.typeList} 
+          myEventsList={this.state.eventList} 
+          />
           </h1>
         </header>
             <Switch>

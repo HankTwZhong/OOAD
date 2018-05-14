@@ -40,7 +40,6 @@ class Type{
             else
                 if(event._id.toString() !== eventID)
                     return  event;
-
         })
         calendarSchema.update({account:_account, 'typeList.typeName':this.typeName},{$set: {'typeList.$.eventList':this.eventList}})
         .then((result)=>{

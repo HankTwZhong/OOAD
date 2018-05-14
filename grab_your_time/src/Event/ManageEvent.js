@@ -1,5 +1,5 @@
 import React from 'react';
-import { Checkbox,Button, Modal,Form,FormControl,FormGroup,Col,ControlLabel, DropdownButton, MenuItem} from 'react-bootstrap'
+import {Button, Modal,Form,FormControl,FormGroup,Col,ControlLabel, DropdownButton, MenuItem} from 'react-bootstrap'
 import 'react-datepicker/dist/react-datepicker-cssmodules.css'
 import DatePicker from 'react-datepicker';
 import 'rc-time-picker/assets/index.css';
@@ -8,17 +8,16 @@ import moment from 'moment';
 import axios from 'axios';
 import swal from 'sweetalert';
 
-const now = moment();
 const format = 'HH:mm';
 
 export default class AddEvent extends React.Component{
-    constructor(props, context) {
-      super(props, context);
+    constructor(props) {
+      super(props);
         // this.typeList = props.typeList
-        this.eventList = props.myEventsList
         this.handleShow = this.handleShow.bind(this)
         this.handleClose = this.handleClose.bind(this)
         this.state = {
+          _id:undefined,
           show: false,
           eventContent: undefined,
           startDate: moment(),
@@ -40,6 +39,8 @@ export default class AddEvent extends React.Component{
         this.checkBox = this.checkBox.bind(this)
         this.selectedTime = this.selectedTime.bind(this)
         this.checkFormData = this.checkFormData.bind(this)
+        this.deleteEvent = this.deleteEvent.bind(this);
+        
       }
       startDateChange(date) {
         this.setState({
@@ -51,14 +52,31 @@ export default class AddEvent extends React.Component{
           endDate: date
         })
       }
-    
+      deleteEvent(){
+        axios.delete('http://localhost:1321/event',{data:{
+          title:this.state.title, _id:this.state._id}
+        }).then((result)=>{
+        axios.get('http://localhost:1321/event').then((result)=>{
+          this.props.setEventList(result.data)
+        })
+        })
+      }
       handleClose() {
         this.setState({ 
           title:'選擇類別',
           show: false });
       }
     
-      handleShow() {
+      handleShow(eventData) {
+        console.log(eventData)
+        this.setState({
+          _id:eventData._id,
+          title:eventData.title,
+          startDate:moment(new Date(eventData.start)),
+          startTime:moment(new Date(eventData.start)),
+          endTime:moment(new Date(eventData.end)),
+          desc:eventData.desc
+        })
         this.setState({ show: true });
       }
       startTimeOnChange(value) {
@@ -160,7 +178,7 @@ export default class AddEvent extends React.Component{
           <div>
             <Modal show={this.state.show} onHide={this.handleClose}>
               <Modal.Header closeButton>
-                <Modal.Title>增加事件</Modal.Title>
+                <Modal.Title>管理事件</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <Form horizontal>
@@ -173,36 +191,15 @@ export default class AddEvent extends React.Component{
                          {optionItems}
                       </DropdownButton>
                     </Col>
-                    <Col sm={3}>
-                    <Checkbox inline checked={this.state.checked} onClick={e => this.checkBox(e.target.checked)}>
-                    重複事件  
-                    </Checkbox>
-                    </Col>
-                    <Col sm={2}>                    
-                      <DropdownButton title='重複事件' onSelect={this.selectedTime} id="selectedTime">
-                          <MenuItem disabled={!this.state.checked} eventKey='day'>每天</MenuItem>
-                          <MenuItem disabled={!this.state.checked} eventKey='week'>一週</MenuItem>                          
-                      </DropdownButton>
-                    </Col>
                   </FormGroup>
                   <FormGroup controlId="formHorizontalEmail">
                     <Col componentClass={ControlLabel} sm={2}>
-                      起始時間（日）
-                </Col>
+                      日期
+                   </Col>
                     <Col sm={4}>
                       <DatePicker
                         selected={this.state.startDate}
                         onChange={this.startDateChange}
-                      />
-                    </Col>
-                    <Col componentClass={ControlLabel} sm={2}>
-                      結束時間(日)
-                </Col>
-                    <Col sm={4}>
-                      <DatePicker
-                        disabled={!this.state.checked}
-                        selected={this.state.endDate}
-                        onChange={this.endDateChange}
                       />
                     </Col>
                   </FormGroup>
@@ -213,7 +210,7 @@ export default class AddEvent extends React.Component{
                     <Col sm={4}>
                       <TimePicker
                         showSecond={false}
-                        defaultValue={now}
+                        defaultValue={this.state.startTime}
                         className="timePicker"
                         onChange={this.startTimeOnChange}
                         format={format}
@@ -226,7 +223,7 @@ export default class AddEvent extends React.Component{
                     <Col sm={4}>
                       <TimePicker
                         showSecond={false}
-                        defaultValue={now}
+                        defaultValue={this.state.endTime}
                         className="timePicker"
                         onChange={this.endTimeOnChange}
                         format={format}
@@ -239,14 +236,15 @@ export default class AddEvent extends React.Component{
                       事件內容
                 </Col>
                     <Col sm={10}>
-                      <FormControl componentClass="textarea" placeholder="input things" onChange={this.handleChange} />
+                      <FormControl defaultValue={this.state.desc} componentClass="textarea" placeholder="input things" onChange={this.handleChange} />
                     </Col>
                   </FormGroup>
                 </Form>
               </Modal.Body>
               <Modal.Footer>
-                <Button onClick={this.submitEvent}>Add</Button>
-                <Button onClick={this.handleClose}>Close</Button>
+                <Button className="pull-left" onClick={this.deleteEvent}>刪除</Button>                
+                <Button onClick={this.submitEvent}>修改</Button>
+                <Button onClick={this.handleClose}>關閉</Button>
               </Modal.Footer>
             </Modal>
           </div>
