@@ -4,7 +4,7 @@ let Calendar = require('../src/server/Calendar.js');
 let Type = require('../src/server/Type.js');
 let Event = require('../src/server/Event.js');
 
-describe.only('Calendar Operation', function() {
+describe('Calendar Operation', function() {
   let acc;
   let cal;
   beforeEach(function(){
@@ -13,13 +13,7 @@ describe.only('Calendar Operation', function() {
     cal = new Calendar(initTypeList);
   });
 
-  describe('#getTypeList()', function() {
-    it('it should same with assignt element', function() {
-      let expectTypeList  = [];
-      assert.deepEqual(expectTypeList, cal.getTypeList());
-    });
-  });
-
+  
   describe('#addType', function(){
     it('it should show add Type in typelist of calendar', function(){
       let expectTypeList = [{"eventList": [],"typeName": "STV"}]
@@ -29,7 +23,13 @@ describe.only('Calendar Operation', function() {
       cal.deleteType(acc.account, type.typeName);
     })
   })
-
+  
+  describe('#getTypeList()', function() {
+    it('it should same with assignt element', function() {
+      let expectTypeList  = [];
+      assert.deepEqual(expectTypeList, cal.getTypeList());
+    });
+  });
   describe('#deleteType', function(){
     it('it should show add Type in typelist of calendar', function(){
       let expectTypeList = [{"eventList": [],"typeName": "STV"}]

@@ -119,7 +119,7 @@
       </counter>
       <counter>
         <item-type type-id="" type="AbstractElementGroup" />
-        <value>874</value>
+        <value>875</value>
       </counter>
       <counter>
         <item-type type-id="comment" type="UmlComment" />

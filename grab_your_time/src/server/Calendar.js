@@ -45,7 +45,10 @@ class Calendar {
             findType[0].addEvent(_account, eventData)
             .then((result)=>{
                 resolve(result);
-            });
+            })
+            .catch((err)=>{
+                reject(err);
+            })
         })
 
     }
@@ -57,7 +60,6 @@ class Calendar {
             if(type.typeName === eventData.title)
             return type;
         })
-
         findType[0].deleteEvent(_account, eventData._id);
     }
 
