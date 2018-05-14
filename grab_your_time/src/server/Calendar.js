@@ -52,12 +52,11 @@ class Calendar {
 
     deleteEvent(_account, eventData){
         // console.log('eventData'+(eventData))
-        console.log(typeof(eventData));
+        console.log(JSON.stringify((eventData)))
         let findType = this.typeList.filter((type)=>{
             if(type.typeName === eventData.title)
-            return type;
+                return type;
         })
-
         findType[0].deleteEvent(_account, eventData._id);
     }
 

@@ -4,6 +4,7 @@ import { Button,FormControl,Form} from 'react-bootstrap'
 import axios from 'axios';
 import ReactTable from "react-table";
 import "react-table/react-table.css";
+import swal from 'sweetalert';
 
 export default class TypeManage extends React.Component {
   constructor(props) {
@@ -17,17 +18,21 @@ export default class TypeManage extends React.Component {
     this.deleteType = this.deleteType.bind(this)
   }
   addType(){
-    let newArray = this.state.data
-    newArray.push({typeName:this.state.inputText})
-    this.props.setTypeList(newArray)
-    axios.post('http://localhost:1321/type',{
-      typeName:this.state.inputText
-    }).then((result)=>{
-      console.log(result);
-      axios.get('http://localhost:1321/type').then((result)=>{
-        this.props.setTypeList(result.data)
-      })
-    });
+    if(this.state.inputText !== ''){
+      let newArray = this.state.data
+      newArray.push({typeName:this.state.inputText})
+      this.props.setTypeList(newArray)
+      axios.post('http://localhost:1321/type',{
+        typeName:this.state.inputText
+      }).then((result)=>{
+        console.log(result);
+        axios.get('http://localhost:1321/type').then((result)=>{
+          this.props.setTypeList(result.data)
+        })
+      });
+    }
+    else
+      swal('類別不能為空')
   }
   inputTypeChange(inputText){
     this.setState({

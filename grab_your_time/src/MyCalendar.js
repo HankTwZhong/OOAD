@@ -1,25 +1,18 @@
 import React from 'react';
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
-import axios from 'axios';
 import 'react-big-calendar/lib/css/react-big-calendar.css'
+import ManageEvent from './Event/ManageEvent'
 
 BigCalendar.momentLocalizer(moment)
 class MyCalendar extends React.Component {
     constructor(props){
         super(props)
+        this.child = React.createRef()
         this.state= {
-            myEventsList :props.myEventsList
+            myEventsList :props.myEventsList,
         }
-        this.deleteEvent = this.deleteEvent.bind(this);
-    }
-    deleteEvent(event){
-      axios.delete('http://localhost:1321/event',{data:{title:event.title, _id:event._id}}).then((result)=>{
-      axios.get('http://localhost:1321/event').then((result)=>{
-        this.props.setEventList(result.data)
-      })
-     
-      })
+        this.showManageModal = this.showManageModal.bind(this)
     }
     Event({ event }) {
       return (
@@ -37,21 +30,28 @@ class MyCalendar extends React.Component {
         </span>
       )
     }
+    showManageModal(event){
+      this.child.current.handleShow(event)
+    }
     render() {
       return (
-        <BigCalendar
-          popup events={this.state.myEventsList}
-          defaultDate={new Date()}
-          defaultView="month"
-          views={['month', 'agenda']}
-          onSelectEvent={event => this.deleteEvent(event)}
-          components={{
-            event: this.Event,
-            agenda: {
-              event: this.EventAgenda,
-            },
-          }}
-        />
+        <div>
+          <BigCalendar
+            popup events={this.state.myEventsList}
+            defaultDate={new Date()}
+            defaultView="month"
+            views={['month', 'agenda']}
+            onSelectEvent={event => this.showManageModal(event)}
+            components={{
+              event: this.Event,
+              agenda: {
+                event: this.EventAgenda,
+              },
+            }}
+            drilldownView="agenda"          
+          />
+          <ManageEvent ref = {this.child}  deleteEvent={this.deleteEvent} typeList={this.props.typeList} setEventList = {this.props.setEventList} />
+        </div>
       )
     }
   }

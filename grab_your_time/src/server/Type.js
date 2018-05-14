@@ -27,7 +27,6 @@ class Type{
     }
 
     deleteEvent(_account, eventID){
-        console.log(eventID);
         this.eventList = this.eventList.filter((event)=>{
             // var id = mongoose.Types.ObjectId(eventID);
             if(_account === "Hank"){
@@ -38,7 +37,6 @@ class Type{
             else
                 if(event._id.toString() !== eventID)
                     return  event;
-
         })
         calendarSchema.update({account:_account, 'typeList.typeName':this.typeName},{$set: {'typeList.$.eventList':this.eventList}})
         .then((result)=>{
