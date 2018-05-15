@@ -1,5 +1,5 @@
-import  bodyParser from'body-parser';
-import  Type from '../Type';
+let bodyParser = require('body-parser');
+let Type = require('../Type');
 
 class TypeController {
     constructor(account){

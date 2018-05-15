@@ -1,7 +1,7 @@
-let assert = require('assert');
-let Type = require('../src/server/Type.js');
-let fakeDB = require('../src/utils/fakeDB');
-let Event = require('../src/server/Event')
+import assert from 'assert';
+import Type from '../src/server/Type.js';
+import fakeDB from '../src/utils/fakeDB';
+import Event from '../src/server/Event';
 
 describe('event Operation', function() {
   let type;

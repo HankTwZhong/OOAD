@@ -1,9 +1,9 @@
-import Account from './Account';
-import ChartInformation from './ChartInformation';
-import mongoose from 'mongoose';
+let Account = require('./Account');
+let ChartInformation = require('./ChartInformation');
+let mongoose = require('mongoose');
 var db = mongoose.connection;
-import calendarSchema from './Schemas/calendarSchema';
-import Type from './Type';
+var calendarSchema = require('./Schemas/calendarSchema');
+var Type = require('./Type');
 
 class Calendar {
     constructor(typeList){

@@ -1,5 +1,5 @@
-import bodyParser from 'body-parser';
-import Account  from '../Account';
+let bodyParser = require('body-parser');
+let Account  =  require('../Account');
 // let account = new Account();
 
 class CalendarController {

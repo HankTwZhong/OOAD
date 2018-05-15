@@ -1,4 +1,4 @@
-import  bodyParser from 'body-parser';
+let bodyParser = require('body-parser');
 
 class EventController {
     constructor(account){

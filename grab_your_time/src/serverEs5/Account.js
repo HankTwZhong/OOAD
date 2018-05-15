@@ -1,10 +1,10 @@
-import mongoose from 'mongoose';
+let mongoose = require('mongoose');
 let connection = mongoose.connect('mongodb://localhost/timelog');
 let db = mongoose.connection;
-import calendarSchema  from './Schemas/calendarSchema';
-import Calendar from './Calendar';
-import Type from './Type';
+let calendarSchema = require('./Schemas/calendarSchema');
 
+let Calendar = require('./Calendar');
+let Type = require('./Type');
 class Account {
     constructor(account, password){
         this.account = account;

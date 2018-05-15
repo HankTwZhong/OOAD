@@ -1,5 +1,6 @@
-import mongoose from 'mongoose';
+var mongoose = require('mongoose');
 var connection = mongoose.connect('mongodb://localhost/timelog')
+
 var db = mongoose.connection;
 
 class Login {

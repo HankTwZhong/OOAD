@@ -1,5 +1,5 @@
-let assert = require('assert');
-let Account = require('../src/server/Account.js');
+import assert from 'assert';
+import  Account from '../src/server/Account.js';
 
 describe('Account Operation', function() {
   let acc;

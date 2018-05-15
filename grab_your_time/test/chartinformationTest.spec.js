@@ -1,6 +1,6 @@
-let Type = require('../src/server/Type');
-let Event = require('../src/server/Event');
-let ChartInformation = require('../src/server/ChartInformation')
+import Type from '../src/server/Type';
+import Event from'../src/server/Event';
+import ChartInformation from '../src/server/ChartInformation';
 
 describe('chartInformatrion Operation', function() {
 

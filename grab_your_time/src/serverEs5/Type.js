@@ -1,4 +1,4 @@
-import Event from'./Event';
+let Event = require('./Event');
 class Type{
     constructor(typeName,eventList){
         this.typeName = typeName;

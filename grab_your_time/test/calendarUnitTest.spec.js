@@ -1,8 +1,8 @@
-let assert = require('assert');
-let Account = require('../src/server/Account.js');
-let Calendar = require('../src/server/Calendar.js');
-let Type = require('../src/server/Type.js');
-let Event = require('../src/server/Event.js');
+import assert from 'assert';
+import Account from '../src/server/Account.js';
+import Calendar from '../src/server/Calendar.js';
+import Type from '../src/server/Type.js';
+import Event from '../src/server/Event.js';
 
 describe('Calendar Operation', function() {
   let acc;
