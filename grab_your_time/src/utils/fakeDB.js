@@ -7,6 +7,7 @@ class fakeDB {
                     eventList: fake2.$set['typeList.$.eventList']
                 }]
             };
+            result.typeList[0].eventList[0]._id = '8081'
             resolve(result);
         })
     }
