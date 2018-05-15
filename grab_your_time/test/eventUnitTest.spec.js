@@ -9,7 +9,7 @@ describe('event Operation', function() {
      type = new Type("OOAD",[]);
   });
   describe('#add Event', function(){
-    it('it should show add Type in typelist of calendar', function(done){
+    it('it should show add event in eventList of type', function(done){
       let expectData = {
         _id : '8081' ,
         title : 'OOAD',
@@ -22,7 +22,7 @@ describe('event Operation', function() {
         assert.equal(expectData.title,result[0].title)
         assert.equal(expectData.start,result[0].start)
         assert.equal(expectData.end,result[0].end)
-        assert.equal(expectData.desc,result[0].desc)        
+        assert.equal(expectData.desc,result[0].desc)
         done()
       }).catch(result => {
         done('something wrong')
@@ -30,7 +30,7 @@ describe('event Operation', function() {
     })
   })
   describe('deleteEvent', function(){
-    it('it should show add Type in typelist of calendar', function(){
+    it('it should show empty eventList when deleteEvent', function(){
       let expectData = [{
         _id : '8081' ,
         title : 'OOAD',
