@@ -35,7 +35,11 @@ class Calendar {
     getTypeList(){
         return this.typeList;
     }
-
+    getChartInformation(startDate,endDate){
+        let chartInformation = new ChartInformation()
+        let copyList = this.typeList.slice()
+        return chartInformation.getChartInformation(copyList,startDate,endDate)
+    }
     addEvent(_account, eventData){
         return new Promise((resolve, reject)=>{
             let findType = this.typeList.filter((type)=>{

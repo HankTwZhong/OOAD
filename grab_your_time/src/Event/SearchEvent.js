@@ -91,7 +91,7 @@ export default class SearchEvent extends React.Component {
             {
               Header: "開始時間",
               id: "startTime",
-              accessor: data => moment(data.startstart).format('YYYY/MM/DD HH:mm')
+              accessor: data => moment(data.start).format('YYYY/MM/DD HH:mm')
               ,
               filterable: false
             },

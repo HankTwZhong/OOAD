@@ -4,7 +4,7 @@ import ChartInformation from '../src/server/ChartInformation';
 
 describe('chartInformatrion Operation', function() {
 
-    describe('#CalculateTotialTime', function(){
+    describe('#calculateTotialTime', function(){
             it('it should show expect result', function(){
                 let expectTypeList = {"eventList": [],"typeName": "STV"}
                 let eventList =[{
@@ -26,7 +26,7 @@ describe('chartInformatrion Operation', function() {
                 expectTypeList.eventList.push(eve2)
                 console.log(expectTypeList);
                 let char = new ChartInformation();
-                let result = char.CalculateTotialTime(expectTypeList);
+                let result = char.calculateTotialTime(expectTypeList);
                 console.log("result:\t"+JSON.stringify(result));
         })
     })

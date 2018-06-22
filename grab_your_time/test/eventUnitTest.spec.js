@@ -31,14 +31,8 @@ describe('event Operation', function() {
   })
   describe('deleteEvent', function(){
     it('it should show empty eventList when deleteEvent', function(){
-      let expectData = [{
-        _id : '8081' ,
-        title : 'OOAD',
-        start : '2018-05-10T05:33:00.000Z',
-        end : '2018-05-10T05:59:00.000Z',
-        desc : 'coding'
-      }]
-      type.deleteEvent('Hank',expectData[0]._id,fakeDB);
+      let expectId = '8081'
+      type.deleteEvent('Hank',expectId,fakeDB);
       assert.deepEqual([], type.eventList);
     })
   })

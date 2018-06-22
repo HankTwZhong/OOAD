@@ -6,6 +6,7 @@ import SearchEvent from './Event/SearchEvent'
 import TypeManage from './Type/TypeManage'
 import TopButtom from './TopButton'
 import axios from 'axios'
+import GenerateChart from './Chart/GenerateChart'
 
 class App extends Component {
   constructor(){
@@ -53,9 +54,9 @@ class App extends Component {
     );
     }
     const searchEvent = (props) =>{
-    return (
-      <SearchEvent myEventsList={this.state.eventList}/>
-    )
+      return (
+        <SearchEvent myEventsList={this.state.eventList}/>
+      )
     }
     return (
       <div className="App">
@@ -69,7 +70,8 @@ class App extends Component {
             <Switch>
               <Route exact path="/" component={MyCalendarWithProps} />
               <Route exact path="/searchEvent" component={searchEvent}/>
-              <Route exact path="/manageType" component={MyTypeList}/>              
+              <Route exact path="/manageType" component={MyTypeList}/>
+              <Route exact path="/generateChart" component={GenerateChart}/>                                    
               <Redirect to='/' />
             </Switch>
       </div>

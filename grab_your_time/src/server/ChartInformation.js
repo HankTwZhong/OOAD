@@ -1,22 +1,41 @@
+import moment from 'moment'
 class ChartInformation {
     constructor(){
-        this.chartInformationList ;
+        this.chartInformationList=[];
     }
-
+    getChartInformation(typeList,  startDate, endDate){
+        let filteredTypeList = this.filterTypeList(typeList,startDate,endDate)
+        return  this.makeChartInformation(filteredTypeList)
+    }
     filterTypeList(typeList,  startDate, endDate){
-        typeList.eventList.forEach((event)=>{
-            if (event.start > startDate && event.start < endDate)
-                this.chartInformationList.push();
+        let filteredList=[]
+        for(let i = 0 ; i<typeList.length;i++){
+            filteredList.push({
+                typeName :typeList[i].typeName,
+            })
+            filteredList[i].eventList = typeList[i].eventList.slice()
+        }
+        filteredList.forEach((type)=>{
+            type.eventList = type.eventList.filter((event)=>{
+                if (event.start > new Date(startDate) && event.end < new Date(endDate))
+                return event
+            })
         })
+        // console.log(JSON.stringify(filteredList))
+        filteredList = filteredList.filter((type)=>{
+            if(type.eventList.length > 0)
+            return type
+        })
+        return filteredList
     }
-    CalculateTotialTime(typeList, startDate, endDate){
-        this.chartInformationList = typeList;
-        // let measureHour = (this.chartInformationList.eventList[0].end - this.chartInformationList.eventList[0].start)/3600000 ;
-        this.chartInformationList.eventList.forEach((event)=>{
-            event.countTime = (event.end - event.start) / 3600000;
-            console.log(event.countTime);
+    makeChartInformation(filteredList){
+        filteredList.forEach((type)=>{
+            type.totalSpentHours = 0
+            type.eventList.forEach((event)=>{
+                type.totalSpentHours += (event.end - event.start)/ 1000 / 60 / 60
+            })
         })
-        return this.chartInformationList;
+        return filteredList
     }
 }
 

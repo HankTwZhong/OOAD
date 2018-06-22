@@ -53,12 +53,12 @@ export default class AddEvent extends React.Component{
         })
       }
       deleteEvent(){
-        axios.delete('http://localhost:1321/event',{data:{
-          title:this.state.title, _id:this.state._id}
-        }).then((result)=>{
-        axios.get('http://localhost:1321/event').then((result)=>{
-          this.props.setEventList(result.data)
-        })
+          axios.delete('http://localhost:1321/event',{data:{
+            title:this.state.title, _id:this.state._id}
+          }).then((result)=>{
+          axios.get('http://localhost:1321/event').then((result)=>{
+            this.props.setEventList(result.data)
+          })
         })
       }
       handleClose() {
@@ -68,7 +68,6 @@ export default class AddEvent extends React.Component{
       }
     
       handleShow(eventData) {
-        console.log(eventData)
         this.setState({
           _id:eventData._id,
           title:eventData.title,

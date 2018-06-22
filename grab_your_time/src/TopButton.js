@@ -24,6 +24,9 @@ export default class TopButtom extends React.Component{
             <Button  className="pull-right" bsStyle="primary">
               <Link to="/manageType" style={{ color: '#FFF' }}>管理類別</Link>
             </Button>
+            <Button  className="pull-right" bsStyle="primary">
+              <Link to="/generateChart" style={{ color: '#FFF' }}>產生圖表</Link>
+            </Button>
             <Button  className="pull-left" bsStyle="primary">
               <Link to="/" style={{ color: '#FFF' }}>返回月曆</Link>
             </Button>

@@ -18,6 +18,8 @@ let  eventController = new EventController(account);
 
 app.get('/type', calendarController.getTypeList.bind(calendarController));
 app.get('/event', calendarController.getEventList.bind(calendarController));
+app.get('/chartInformation', calendarController.getChartInformation.bind(calendarController));
+
 app.post('/event', eventController.addEvent.bind(eventController));
 app.delete('/event', eventController.deleteEvent.bind(eventController));
 app.post('/type', typeController.addType.bind(typeController));
