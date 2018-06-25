@@ -28,7 +28,7 @@ export default class AddEvent extends React.Component{
           title: '選擇類別',
           desc: undefined,
           checked:false,
-          time:undefined
+          time:"重複事件"
         }
         this.startDateChange = this.startDateChange.bind(this)
         this.endDateChange = this.endDateChange.bind(this)
@@ -95,38 +95,31 @@ export default class AddEvent extends React.Component{
             desc: this.state.desc,
           })
           console.log(this.state.time)
-          if(this.state.time===undefined){
+
+              let endDateAssign  
+              if(this.state.checked)
+                endDateAssign  = new Date(this.state.endDate.get('year'),this.state.endDate.get('month'), this.state.endDate.get('date'), this.state.endTime.get('hour'), this.state.endTime.get('minute'), 0)
+              else{
+                endDateAssign  = new Date(this.state.startDate.get('year'),this.state.startDate.get('month'), this.state.startDate.get('date'), this.state.endTime.get('hour'), this.state.endTime.get('minute'), 0)
+              }
               axios.post('http://localhost:1321/event',{
                 title: this.state.title,
                 start: new Date(this.state.startDate.get('year'),this.state.startDate.get('month'), this.state.startDate.get('date'), this.state.startTime.get('hour'), this.state.startTime.get('minute'), 0),
-                end: new Date(this.state.startDate.get('year'),this.state.startDate.get('month'), this.state.startDate.get('date'), this.state.endTime.get('hour'), this.state.endTime.get('minute'), 0),
+                end: endDateAssign,
                 desc: this.state.desc,
-                selectedTime: this.state.selectedTime
+                selectedTime: this.state.selectedTime,
+                times: this.state.time,
+                checked: this.state.checked 
             }).then((result)=>{
                 this.setState({
-                  title:'選擇類別'
+                  title:'選擇類別',
+                  time:'重複事件'
                 })
                 axios.get('http://localhost:1321/event').then((result)=>{
                   this.props.setEventList(result.data)
+                  console.log(result.data)
                 })
             })
-          }
-          else{
-            axios.post('http://localhost:1321/event',{
-                title: this.state.title,
-                start: new Date(this.state.startDate.get('year'),this.state.startDate.get('month'), this.state.startDate.get('date'), this.state.startTime.get('hour'), this.state.startTime.get('minute'), 0),
-                end: new Date(this.state.endDate.get('year'),this.state.endDate.get('month'), this.state.endDate.get('date'), this.state.endTime.get('hour'), this.state.endTime.get('minute'), 0),
-                desc: this.state.desc,
-                selectedTime: this.state.selectedTime
-            }).then((result)=>{
-              this.setState({
-                title:'選擇類別'
-              })
-              axios.get('http://localhost:1321/event').then((result)=>{
-                this.props.setEventList(result.data)
-              })
-          })
-          }
         }
       }
       selectedType(selected) {
@@ -179,7 +172,7 @@ export default class AddEvent extends React.Component{
                     </Checkbox>
                     </Col>
                     <Col sm={2}>                    
-                      <DropdownButton title='重複事件' onSelect={this.selectedTime} id="selectedTime">
+                      <DropdownButton title={this.state.time} onSelect={this.selectedTime} id="selectedTime">
                           <MenuItem disabled={!this.state.checked} eventKey='day'>每天</MenuItem>
                           <MenuItem disabled={!this.state.checked} eventKey='week'>一週</MenuItem>                          
                       </DropdownButton>

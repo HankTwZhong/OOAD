@@ -5,6 +5,7 @@ var db = mongoose.connection;
 import calendarSchema from './Schemas/calendarSchema';
 import Type from './Type';
 
+
 class Calendar {
     constructor(typeList){
         this.typeList = typeList ;
@@ -37,8 +38,7 @@ class Calendar {
     }
     getChartInformation(startDate,endDate){
         let chartInformation = new ChartInformation()
-        let copyList = this.typeList.slice()
-        return chartInformation.getChartInformation(copyList,startDate,endDate)
+        return chartInformation.getChartInformation(this.typeList,startDate,endDate)
     }
     addEvent(_account, eventData){
         return new Promise((resolve, reject)=>{
@@ -46,13 +46,24 @@ class Calendar {
                 if(type.typeName === eventData.title)
                     return  type
             })
-            findType[0].addEvent(_account, eventData, calendarSchema)
-            .then((result)=>{
-                resolve(result);
-            })
-            .catch((err)=>{
-                reject(err);
-            })
+            if(eventData.checked === true ){
+                findType[0].addCycleEvent(_account, eventData, calendarSchema)
+                .then((result)=>{
+                    resolve(result);
+                })
+                .catch((err)=>{
+                    reject(err);
+                })
+            }
+            else{
+                findType[0].addEvent(_account, eventData, calendarSchema)
+                .then((result)=>{
+                    resolve(result);
+                })
+                .catch((err)=>{
+                    reject(err);
+                })
+            }
         })
 
     }
@@ -69,7 +80,6 @@ class Calendar {
     getEventList(){
         let eventList = [];
         // console.log('here:'+JSON.stringify(this.typeList))
-        
         this.typeList.forEach((type)=>{
             type.eventList.forEach((event)=>{
                 eventList.push(event);

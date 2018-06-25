@@ -36,4 +36,20 @@ describe('event Operation', function() {
       assert.deepEqual([], type.eventList);
     })
   })
+  describe('#getRangeTime', function(){
+    it('it should get Range Of Time From Condition', function(){
+      let expectData = {
+        _id : '8081' ,
+        title : 'OOAD',
+        start : '2018-05-10T05:33:00.000Z',
+        end : '2018-06-28T05:59:00.000Z',
+        desc : 'coding',
+        times: 'week',
+        checked: true
+      }
+      let DataOfEventList =  [{"title":"OOAD","start":"2018-05-10T05:33:00.000Z","end":"2018-05-10T05:59:00.000Z","desc":"coding","_id":"8081"},{"title":"OOAD","start":"2018-05-17T05:33:00.000Z","end":"2018-05-17T05:59:00.000Z","desc":"coding"},{"title":"OOAD","start":"2018-05-24T05:33:00.000Z","end":"2018-05-24T05:59:00.000Z","desc":"coding"},{"title":"OOAD","start":"2018-05-31T05:33:00.000Z","end":"2018-05-31T05:59:00.000Z","desc":"coding"},{"title":"OOAD","start":"2018-06-07T05:33:00.000Z","end":"2018-06-07T05:59:00.000Z","desc":"coding"},{"title":"OOAD","start":"2018-06-14T05:33:00.000Z","end":"2018-06-14T05:59:00.000Z","desc":"coding"},{"title":"OOAD","start":"2018-06-21T05:33:00.000Z","end":"2018-06-21T05:59:00.000Z","desc":"coding"},{"title":"OOAD","start":"2018-06-28T05:33:00.000Z","end":"2018-06-28T05:59:00.000Z","desc":"coding"}];
+      type.addCycleEvent('Hank', expectData, fakeDB);
+      assert.equal(JSON.stringify(DataOfEventList), JSON.stringify(type.eventList));
+    })
+  })
 });
