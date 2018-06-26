@@ -23,7 +23,7 @@ describe('Calendar Operation', function() {
     })
   })
 
-  describe('#getTypeList()', function() {
+  describe('#getTypeList', function() {
     it('it should same with assignt element', function() {
       let expectTypeList  = [];
       assert.deepEqual(expectTypeList, cal.getTypeList());

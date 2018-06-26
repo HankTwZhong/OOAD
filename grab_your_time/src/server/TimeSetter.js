@@ -3,9 +3,9 @@ class TimeSetter {
     constructor(){
         // Do not do anything at the current stage;
     }
-    parser(stringofTime){
+    timeFormatConvert(stringOfTime){
         let parserStringToNumber ;
-        if(stringofTime === '一週')
+        if(stringOfTime === '一週')
             parserStringToNumber = 7;
         else
             parserStringToNumber = 1;

@@ -29,14 +29,14 @@ describe('event Operation', function() {
       });
     })
   })
-  describe('deleteEvent', function(){
+  describe('#delete Event', function(){
     it('it should show empty eventList when deleteEvent', function(){
       let expectId = '8081'
       type.deleteEvent('Hank',expectId,fakeDB);
       assert.deepEqual([], type.eventList);
     })
   })
-  describe('#getRangeTime', function(){
+  describe('#get Range Time', function(){
     it('it should get Range Of Time From Condition', function(){
       let expectData = {
         _id : '8081' ,
@@ -44,7 +44,7 @@ describe('event Operation', function() {
         start : '2018-05-10T05:33:00.000Z',
         end : '2018-06-28T05:59:00.000Z',
         desc : 'coding',
-        times: 'week',
+        times: '一週',
         checked: true
       }
       let DataOfEventList =  [{"title":"OOAD","start":"2018-05-10T05:33:00.000Z","end":"2018-05-10T05:59:00.000Z","desc":"coding","_id":"8081"},{"title":"OOAD","start":"2018-05-17T05:33:00.000Z","end":"2018-05-17T05:59:00.000Z","desc":"coding"},{"title":"OOAD","start":"2018-05-24T05:33:00.000Z","end":"2018-05-24T05:59:00.000Z","desc":"coding"},{"title":"OOAD","start":"2018-05-31T05:33:00.000Z","end":"2018-05-31T05:59:00.000Z","desc":"coding"},{"title":"OOAD","start":"2018-06-07T05:33:00.000Z","end":"2018-06-07T05:59:00.000Z","desc":"coding"},{"title":"OOAD","start":"2018-06-14T05:33:00.000Z","end":"2018-06-14T05:59:00.000Z","desc":"coding"},{"title":"OOAD","start":"2018-06-21T05:33:00.000Z","end":"2018-06-21T05:59:00.000Z","desc":"coding"},{"title":"OOAD","start":"2018-06-28T05:33:00.000Z","end":"2018-06-28T05:59:00.000Z","desc":"coding"}];

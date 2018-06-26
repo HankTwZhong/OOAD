@@ -41,27 +41,29 @@ class Type{
     }
 
     getSpecifyPeriodDate(eventDate){
+        
         let startDate = new Date(eventDate.start);
         let endDate = new Date(eventDate.end);
         let timeSetter = new TimeSetter();
-        let iterativeTimes = timeSetter.parser(eventDate.times);
+        let iterativeTimes = timeSetter.timeFormatConvert(eventDate.times);
         let firstSpecifyStartTime = timeSetter.specifyDateAndTimeofFirstDay(startDate, startDate);
         let firstSpecifyEndTime = timeSetter.specifyDateAndTimeofFirstDay(startDate, endDate);
         let PeriodDate = timeSetter.iterativeAddStartAndEndTime(firstSpecifyStartTime, firstSpecifyEndTime,endDate , iterativeTimes);
         return PeriodDate;
+
     }
     addCycleEvent(_account, eventData,calendarSchema){
         return new Promise((resolve, reject)=>{
             let i;
             let PeriodDate ;
             PeriodDate = this.getSpecifyPeriodDate(eventData);
-            let RecycleDate = {};
+            let cycleDate = {};
             for( i=0 ; i <= PeriodDate['start'].length-1; i++ ){
-                RecycleDate.start = PeriodDate['start'][i]
-                RecycleDate.end = PeriodDate['end'][i]
-                RecycleDate.title = eventData['title']
-                RecycleDate.desc = eventData['desc']
-                this.eventList.push(new Event( RecycleDate.title,  RecycleDate.start, RecycleDate.end, RecycleDate.desc));
+                cycleDate.start = PeriodDate['start'][i]
+                cycleDate.end = PeriodDate['end'][i]
+                cycleDate.title = eventData['title']
+                cycleDate.desc = eventData['desc']
+                this.eventList.push(new Event( cycleDate.title,  cycleDate.start, cycleDate.end, cycleDate.desc));
             }
             calendarSchema.findOneAndUpdate({account:_account, 'typeList.typeName':this.typeName},{$set: {'typeList.$.eventList':this.eventList}},{ new: true })
                 .then((result)=>{
@@ -78,5 +80,4 @@ class Type{
         })
     }
 }
-
 module.exports = Type;

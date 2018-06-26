@@ -21,7 +21,6 @@ class ChartInformation {
                 return event
             })
         })
-        // console.log(JSON.stringify(filteredList))
         filteredList = filteredList.filter((type)=>{
             if(type.eventList.length > 0)
             return type

@@ -27,6 +27,3 @@ app.delete('/type', typeController.deleteType.bind(typeController));
 app.listen(1321, function () {
     console.log('listening on port 1321!');
 })
-
-
-
