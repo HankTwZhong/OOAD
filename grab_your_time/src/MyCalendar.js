@@ -31,6 +31,7 @@ class MyCalendar extends React.Component {
       )
     }
     showManageModal(event){
+      console.log(event)
       this.child.current.handleShow(event)
     }
     render() {

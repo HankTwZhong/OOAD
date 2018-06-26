@@ -173,8 +173,8 @@ export default class AddEvent extends React.Component{
                     </Col>
                     <Col sm={2}>                    
                       <DropdownButton title={this.state.time} onSelect={this.selectedTime} id="selectedTime">
-                          <MenuItem disabled={!this.state.checked} eventKey='day'>每天</MenuItem>
-                          <MenuItem disabled={!this.state.checked} eventKey='week'>一週</MenuItem>                          
+                          <MenuItem disabled={!this.state.checked} eventKey='每天'>每天</MenuItem>
+                          <MenuItem disabled={!this.state.checked} eventKey='一週'>一週</MenuItem>                          
                       </DropdownButton>
                     </Col>
                   </FormGroup>

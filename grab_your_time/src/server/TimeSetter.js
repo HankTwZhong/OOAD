@@ -5,7 +5,7 @@ class TimeSetter {
     }
     parser(stringofTime){
         let parserStringToNumber ;
-        if(stringofTime === 'week')
+        if(stringofTime === '一週')
             parserStringToNumber = 7;
         else
             parserStringToNumber = 1;
