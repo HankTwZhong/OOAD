@@ -1,6 +1,5 @@
 import bodyParser from 'body-parser';
 import Account  from '../Account';
-// let account = new Account();
 
 class CalendarController {
     constructor(account){
